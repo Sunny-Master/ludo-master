@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ludo Master</title>
     <script defer src="./js/app.js"></script>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <h1>Ludo</h1>
+    <h1>Ludo Master</h1>
+    <label for="players-select">Select no. of Players</label>
+    <select name="players" id="players-select">
+        <option value="">--Please choose an option--</option>
+        <option value="twoPlayers">2</option>
+        <option value="fourPlayers">4</option>
+    </select>
     <section id="board">
         <div id="lvl1" class="flr">
             <div id="greenPlayer" class="depot">
