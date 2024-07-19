@@ -8,7 +8,29 @@ const piecesObject = {
     red: '🧡'
 }
 
-const turnSequence = ['GREEN', 'YELLOW', 'BLUE', 'RED']
+const turnSequence = ['green', 'yellow', 'blue', 'red']
+
+const homeSquare = {
+    green: 75,
+    yellow: 57,
+    blue: 63,
+    red: 75,
+}
+
+const pathWay = {
+    green: [47, 48, 49, 50, 51, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+         16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 
+         35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 70, 71, 72, 73, 74, 75],
+    yellow: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+         27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 
+         46, 47, 48, 49, 50, 51, 0, 1, 2, 3, 4, 5, 6, 52, 53, 54, 55, 56, 57],
+    blue: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
+         40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 
+         10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 58, 59, 60, 61, 62, 63],
+    red: [34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 0, 1,
+         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 
+         23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 64, 65, 66, 67, 68, 69],
+}
 
 
 /*---------------------------- Variables (state) ----------------------------*/
@@ -19,7 +41,6 @@ let board = []
 let homeDepots = []
 
 const activePieces = {}
-
 
 /*------------------------ Cached Element References ------------------------*/
 const pathSquareEls = document.querySelectorAll('.path')
@@ -88,15 +109,6 @@ function updateBoard() {
         pathEls[idx].textContent = piecesObject[cell]
     })
 }
-
-
-//// Create a function call updateMessage: In updateMessage, render message based on the current game state
-//// If winner is false and pieceHome is false,
-////      Render whose turn it is
-//// If winner is false and pieceHome is true, 
-////      Render the ‘selectedPiece’ reached home for ‘player’ based on the turn
-//// Otherwise, 
-////      render a congratulatory message to the player that has won
 
 // to update the message element text to display the game state
 function updateMessage() {
