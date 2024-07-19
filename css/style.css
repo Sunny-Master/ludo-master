@@ -18,7 +18,7 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 30px;
-    align-items: end;
+    align-items: center;
   }
   
   h1 {
@@ -34,7 +34,7 @@
     margin: 20px;
   }
 
- button {
+ #dice {
   background-image: url("../assets/dice.jpg");
   width: 100px;
   height: 100px;
