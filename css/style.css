@@ -138,6 +138,9 @@
     aspect-ratio: 1/1;
     border: 2px solid;
     background-color: antiquewhite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .ylw-path {
@@ -166,27 +169,7 @@
     background-size: cover; 
   }
   
-  /* https://css-tricks.com/the-shapes-of-css/ */
-  /* #green-home {
-    width: 0;
-    height: 0;
-    border-top: 60px solid transparent;
-    border-left: 59px solid green;
-    border-bottom: 60px solid transparent;
+  .home {
+    border: none;
+    background-color: transparent; 
   }
-  
-  #blu-home {
-    width: 0;
-    height: 0;
-    border-top: 60px solid transparent;
-    border-right: 59px solid blue;
-    border-bottom: 60px solid transparent;
-  }
-  
-  #red-home {
-    width: 0;
-    height: 0;
-    border-left: 60px solid transparent;
-    border-right: 60px solid transparent;
-    border-bottom: 59px solid red;
-  } */

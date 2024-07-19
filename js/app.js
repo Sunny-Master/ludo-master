@@ -23,6 +23,13 @@ const activePieces = {}
 
 /*------------------------ Cached Element References ------------------------*/
 const pathSquareEls = document.querySelectorAll('.path')
+
+// referenced from: https://www.geeksforgeeks.org/fastest-way-to-convert-javascript-nodelist-to-array/
+let pathEls = Array.from(pathSquareEls)
+
+//considering that nodes are objects
+pathEls = pathEls.sort((a,b) => parseInt(a.id) - parseInt(b.id)) 
+
 const yellowSectionEl = document.querySelector('#yellowGateway')
 const blueSectionEl = document.querySelector('#blueGateway')
 const redSectionEl = document.querySelector('#redGateway')
@@ -37,18 +44,19 @@ const bluePiecesDepotEl = document.querySelector('#blueBig')
 
 const diceEl = document.getElementById('dice')
 
-//console.log(pathSquareEls)
 /*-------------------------------- Functions --------------------------------*/
 
 function init() {
-    for (let i = 0; i < 72; i++) {
+    for (let i = 0; i < 76; i++) {
         board.push('')
     }
-    homeDepots = ['green', 'green', 'green', 'green', 
-                  'yellow', 'yellow', 'yellow', 'yellow',
+    homeDepots = ['yellow', 'yellow', 'yellow', 'yellow',
                   'blue', 'blue', 'blue', 'blue',
-                  'red', 'red', 'red', 'red' 
+                  'red', 'red', 'red', 'red',
+                  'green', 'green', 'green', 'green' 
      ]
+    homeDepots.forEach(sqr => board.push(sqr))
+    console.log(board)
     numOfPlayers = 4
     numOfPieces = 4
     diceValue = 0
@@ -69,12 +77,12 @@ init()
 function render() {
     updateBoard()
     updateMessage()
-    //updateDepot()
 }
 
 function updateBoard() {
     board.forEach((cell, idx) => {
-        pathSquareEls[idx].textContent = piecesObject[cell]
+        //console.log(pathSquareEls[idx])
+        pathEls[idx].textContent = piecesObject[cell]
     })
 }
 
@@ -97,9 +105,7 @@ function updateMessage() {
     }
 }
 
-// function updateDepot() {
-//     //
-// }
+
 
 
 
