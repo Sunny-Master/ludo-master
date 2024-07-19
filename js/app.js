@@ -27,7 +27,7 @@ const pathSquareEls = document.querySelectorAll('.path')
 // referenced from: https://www.geeksforgeeks.org/fastest-way-to-convert-javascript-nodelist-to-array/
 let pathEls = Array.from(pathSquareEls)
 
-//considering that nodes are objects
+//considering that nodes are objects in an array
 pathEls = pathEls.sort((a,b) => parseInt(a.id) - parseInt(b.id)) 
 
 const yellowSectionEl = document.querySelector('#yellowGateway')
@@ -46,6 +46,7 @@ const diceEl = document.getElementById('dice')
 
 /*-------------------------------- Functions --------------------------------*/
 
+// function to initialise the game 
 function init() {
     for (let i = 0; i < 76; i++) {
         board.push('')
@@ -56,7 +57,6 @@ function init() {
                   'green', 'green', 'green', 'green' 
      ]
     homeDepots.forEach(sqr => board.push(sqr))
-    console.log(board)
     numOfPlayers = 4
     numOfPieces = 4
     diceValue = 0
@@ -74,11 +74,14 @@ function init() {
 
 init()
 
+//function to render the board
 function render() {
     updateBoard()
     updateMessage()
+    showDiceValue()
 }
 
+//to update the board with game state
 function updateBoard() {
     board.forEach((cell, idx) => {
         //console.log(pathSquareEls[idx])
@@ -86,14 +89,16 @@ function updateBoard() {
     })
 }
 
-// Create a function call updateMessage: In updateMessage, render message based on the current game state
-// If winner is false and pieceHome is false,
-//      Render whose turn it is
-// If winner is false and pieceHome is true, 
-//      Render the ‘selectedPiece’ reached home for ‘player’ based on the turn
-// Otherwise, 
-//      render a congratulatory message to the player that has won
 
+//// Create a function call updateMessage: In updateMessage, render message based on the current game state
+//// If winner is false and pieceHome is false,
+////      Render whose turn it is
+//// If winner is false and pieceHome is true, 
+////      Render the ‘selectedPiece’ reached home for ‘player’ based on the turn
+//// Otherwise, 
+////      render a congratulatory message to the player that has won
+
+// to update the message element text to display the game state
 function updateMessage() {
     if(winner === false && pieceHome === false) {
         messageEl.textContent = `${piecesObject[turn]}'s turn. Please roll the dice and select piece to move`
@@ -105,7 +110,15 @@ function updateMessage() {
     }
 }
 
-
+// to display the value of rolled dice
+function showDiceValue() {
+    if (diceValue === 0) {
+        return
+    } else {
+        diceEl.textContent = ""
+        diceEl.classList.add(`dice${diceValue}`)
+    }
+}
 
 
 
