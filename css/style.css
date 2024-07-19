@@ -6,6 +6,19 @@
     font-family: system-ui, sans-serif;
     margin: 0;
     background-color: darkgray;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #gameArea {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: end;
   }
   
   h1 {
@@ -21,7 +34,12 @@
     margin: 20px;
   }
 
- 
+ button {
+  background-image: url("../assets/dice.jpg");
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+ }
 
   #board {
     display: flex;
