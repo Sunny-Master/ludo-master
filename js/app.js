@@ -35,7 +35,7 @@ const pathWay = {
 
 /*---------------------------- Variables (state) ----------------------------*/
 let numOfPlayers, numOfPieces, diceValue, turn, selectedPiece, winner, outOfBounds, pieceHome
-
+let diceFaceWipe
 let board = []
 
 let homeDepots = []
@@ -51,6 +51,7 @@ let pathEls = Array.from(pathSquareEls)
 //considering that nodes are objects in an array
 pathEls = pathEls.sort((a,b) => parseInt(a.id) - parseInt(b.id)) 
 
+const boardEl = document.querySelector('.board')
 const yellowSectionEl = document.querySelector('#yellowGateway')
 const blueSectionEl = document.querySelector('#blueGateway')
 const redSectionEl = document.querySelector('#redGateway')
@@ -64,6 +65,7 @@ const yellowPiecesDepotEl = document.querySelector('#yellowBig')
 const bluePiecesDepotEl = document.querySelector('#blueBig')
 
 const diceEl = document.getElementById('dice')
+
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -128,16 +130,33 @@ function showDiceValue() {
         return
     } else {
         diceEl.textContent = ""
-        diceEl.classList.add(`dice${diceValue}`)
+        diceEl.classList.add(`d${diceValue}`)
     }
 }
 
+function handleDice() {
+    if (winner) {
+        return
+    }
+    if (diceValue !== 0) {
+        diceEl.classList.remove(diceFaceWipe)
+    }
+    diceFaceWipe = `d${diceValue}`
+    diceValue = Math.floor(Math.random() * 6) + 1
+    showDiceValue()
+}
 
+// to handle the piece selection by the player
+// function handleClick(event) {
+//     const squareIndex = parseInt(event.target.id)
 
+// }
 
 
 
 /*----------------------------- Event Listeners -----------------------------*/
+diceEl.addEventListener('click', handleDice)
+//boardEl.addEventListener('click', handleClick)
 
 
 

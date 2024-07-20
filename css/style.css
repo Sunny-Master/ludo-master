@@ -42,27 +42,27 @@
   font-size: 100px;
  }
 
- .dice1 {
+ .d1 {
   background-image: url("../assets/dice1.png");
   background-size: cover;
  }
- .dice2 {
+ .d2 {
   background-image: url("../assets/dice2.png");
   background-size: cover;
  }
- .dice3 {
+ .d3 {
   background-image: url("../assets/dice3.png");
   background-size: cover;
  }
- .dice4 {
+ .d4 {
   background-image: url("../assets/dice4.png");
   background-size: cover;
  }
- .dice5 {
+ .d5 {
   background-image: url("../assets/dice5.png");
   background-size: cover;
  }
- .dice6 {
+ .d6 {
   background-image: url("../assets/dice6.png");
   background-size: cover;
  }
