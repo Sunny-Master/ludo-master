@@ -132,7 +132,12 @@ function updateBoard() {
 // to update the message element text to display the game state
 function updateMessage() {
     if (!winner && !pieceHome && activePieces[turn] === 0) {
-        messageEl.textContent = `${pieceObject[turn]}'s turn. Please roll the dice to get a 6 to make your first move`
+        messageEl.textContent = `${pieceObject[turn]}'s turn. Please roll the dice and get a '6' to make a move`
+        // if (diceValue !== 6) {
+        //     messageEl.textContent = `${pieceObject[turn]} didn't get a '6'. Better luck in the next roll of Dice`
+        // } else {
+        //     messageEl.textContent = `${pieceObject[turn]} needs to select a piece from depot to make a move`
+        // }
     } else if(winner === false && pieceHome === false) {
         messageEl.textContent = `${pieceObject[turn]}'s turn. Please roll the dice and select piece to move`
     } else if (winner === false && pieceHome) {
@@ -160,13 +165,14 @@ function handleDice() {
     }
     handleDiceRoll()
     console.log(diceValue)
+    // if the player doesn't have any active pieces and dice value is not 6, 
+    // switch player turn
+    if (activePieces[turn] === 0 && diceValue !== 6) {
+        switchPlayerTurn()
+    }
     render()
     selectedPiece = false
-    // if the player doesn't have any active pieces and dice value is 6, 
-    // activate the eventlistener for the player's depot
-    // if (activePieces[turn] === 0 && diceValue !== 6) {
-    //     return
-    // } 
+     
     // activate piece selection from depot if dice value is 6
     // if (diceValue === 6) {
     //     selectedPiece = false
@@ -200,16 +206,15 @@ function handleDepot(event) {
     board[pieceIndex] = ''
     const startPos = playArea[0]
     board[startPos] += turn
-    render()
     selectedPiece = true
     activePieces[turn] += 1
+    render()
     diceRollValueEl.classList.remove(diceFaceWipe)
 }
 
 
 //to handle the piece selection by the player
 function handleClick(event) {
-    outOfBounds = false //to switch-back outOfBounds to false after intial outOfBounds message
     const squareIndex = parseInt(event.target.id)
     if (!board[squareIndex].includes(turn) || selectedPiece) {
         return
@@ -218,6 +223,8 @@ function handleClick(event) {
     const newPos = currentPos + diceValue
     checkBounds(newPos, playArea)
     if(outOfBounds) {
+        if (activePieces[turn] === 1)
+        outOfBounds = false //to switch-back outOfBounds to false after intial outOfBounds message
         return
     }
     board[squareIndex] = board[squareIndex].replace(turn,'')
@@ -226,7 +233,9 @@ function handleClick(event) {
     checkForWinner(newSquareIndex)
     console.log(pieceHome)
     console.log(winner)
+    switchPlayerTurn()
     render()
+    pieceHome = false
 }
 
 // to move the piece from current position to new position on the board
@@ -256,6 +265,21 @@ function checkForWinner(newSquareIndex) {
     if (piecesWon[turn] === 4) {
         winner = true
     }
+}
+
+// to switch turn to next player in the turn sequence
+function switchPlayerTurn() {
+    if (winner || diceValue === 6) {
+        return
+    }
+    if (turn === 'red') {
+        turn = turnSequence[0]
+    } else {
+        turn = turnSequence[turnSequence.indexOf(turn) + 1]
+    }
+    console.log(turn)
+    playArea = pathWay[turn]
+    outOfBounds = false
 }
 
 
