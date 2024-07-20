@@ -14,9 +14,9 @@ const pieceObject = {
 const turnSequence = ['green', 'yellow', 'blue', 'red']
 
 const homeSquare = {
-    green: 75,
-    yellow: 57,
-    blue: 63,
+    green: 72,
+    yellow: 73,
+    blue: 74,
     red: 75,
 }
 
@@ -44,6 +44,8 @@ let board = []
 let homeDepots = []
 
 const activePieces = {}
+
+const piecesWon = {}
 
 // const piecePosition = {}
 
@@ -86,8 +88,8 @@ function init() {
                   'green', 'green', 'green', 'green' 
      ]
     homeDepots.forEach(sqr => board.push(sqr))
-    numOfPlayers = 4
-    numOfPieces = 4
+    //numOfPlayers = 4
+    //numOfPieces = 4
     diceValue = 0
     turn = 'green'
     playArea = pathWay[turn]
@@ -95,6 +97,10 @@ function init() {
     activePieces.blue = 0
     activePieces.red = 0
     activePieces.yellow = 0
+    piecesWon.green = 0
+    piecesWon.yellow = 0 
+    piecesWon.blue = 0
+    piecesWon.red = 0
     // piecePosition.green = [88, 89, 90, 91]
     // piecePosition.yellow = [76, 77, 78, 79] 
     // piecePosition.blue = [80, 81, 82, 83]
@@ -130,7 +136,8 @@ function updateMessage() {
     } else if(winner === false && pieceHome === false) {
         messageEl.textContent = `${pieceObject[turn]}'s turn. Please roll the dice and select piece to move`
     } else if (winner === false && pieceHome) {
-        messageEl.textContent = `${pieceObject[turn]}'s piece reached home!! ${activePieces[turn]} more piece(s) to Win`
+        messageEl.textContent = `${pieceObject[turn]}'s piece reached home!! ${4 - piecesWon[turn]} more piece(s) to Win`
+        pieceHome = false // to reset pieceHome after e piece reaches home
     } else {
         messageEl.textContent = `${pieceObject[turn]} won!! Congratulations!!`
     }
@@ -192,13 +199,11 @@ function handleDepot(event) {
     }    
     board[pieceIndex] = ''
     const startPos = playArea[0]
-    console.log(startPos)
     board[startPos] += turn
     render()
     selectedPiece = true
     activePieces[turn] += 1
     diceRollValueEl.classList.remove(diceFaceWipe)
-    console.log(activePieces[turn])
 }
 
 
@@ -206,21 +211,29 @@ function handleDepot(event) {
 function handleClick(event) {
     outOfBounds = false //to switch-back outOfBounds to false after intial outOfBounds message
     const squareIndex = parseInt(event.target.id)
-    movePiece(squareIndex)
+    if (!board[squareIndex].includes(turn) || selectedPiece) {
+        return
+    }
+    const currentPos = playArea.indexOf(squareIndex)
+    const newPos = currentPos + diceValue
+    checkBounds(newPos, playArea)
+    if(outOfBounds) {
+        return
+    }
+    board[squareIndex] = board[squareIndex].replace(turn,'')
+    const newSquareIndex = playArea[newPos]
+    movePiece(newSquareIndex)
+    checkForWinner(newSquareIndex)
+    console.log(pieceHome)
+    console.log(winner)
     render()
 }
 
 // to move the piece from current position to new position on the board
-function movePiece(index) {
-    const currentPos = playArea.indexOf(index)
-    const newPos = currentPos + diceValue
-    checkBounds(newPos, playArea)
-    if(!outOfBounds && board[index].includes(turn) && !selectedPiece) {
-        board[index] = board[index].replace(turn,'')
-        board[playArea[newPos]] += turn
+function movePiece(newSquareIndex) {
+        board[newSquareIndex] += turn
         selectedPiece = true
         diceRollValueEl.classList.remove(diceFaceWipe)
-    }
 }
 
 // to check if the new position is outOfBounds for the player
@@ -229,6 +242,23 @@ function checkBounds(newPos, playArea) {
         outOfBounds = true
     }
 }
+
+// check if there is a winner
+function checkForWinner(newSquareIndex) {
+    console.log(newSquareIndex !== homeSquare[turn])
+    if (newSquareIndex !== homeSquare[turn]){
+        return
+    }
+    pieceHome = true
+    piecesWon[turn] += 1
+    console.log(piecesWon[turn])
+    activePieces[turn] -= 1
+    if (piecesWon[turn] === 4) {
+        winner = true
+    }
+}
+
+
 
 /*----------------------------- Event Listeners -----------------------------*/
 diceEl.addEventListener('click', handleDice)
