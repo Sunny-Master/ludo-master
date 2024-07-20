@@ -15,6 +15,7 @@
 
   #gameArea {
     display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 30px;
@@ -34,12 +35,17 @@
     margin: 20px;
   }
 
- #dice {
+  .dice-container {
+    display: flex;
+    /* flex-direction: column; */
+    gap: 30px;
+  }
+ .dice {
   background-color: transparent;
   border: none;
-  width: 100px;
-  height: 100px;
-  font-size: 100px;
+  width: 70px;
+  height: 70px;
+  font-size: 60px;
  }
 
  .d1 {

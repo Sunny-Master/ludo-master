@@ -66,7 +66,8 @@ const greenDepotEl = document.querySelector('#greenBig')
 const yellowDepotEl = document.querySelector('#yellowBig')
 const blueDepotEl = document.querySelector('#blueBig')
 
-const diceEl = document.getElementById('dice')
+const diceEl = document.getElementById('dice-button')
+const diceRollValueEl = document.getElementById('dice-value')
 
 
 /*-------------------------------- Functions --------------------------------*/
@@ -98,6 +99,7 @@ function init() {
     winner = false
     pieceHome = false
     outOfBounds = false
+    selectedPiece = false
     render()
 }
 
@@ -107,6 +109,7 @@ init()
 function render() {
     updateBoard()
     updateMessage()
+    showDiceValue()
 }
 
 //to update the board with game state
@@ -130,26 +133,26 @@ function updateMessage() {
     }
 }
 
-// to handle dice roll and randomly assign diceValue
-function handleDiceRoll() {
-    console.log('clicked')
+// handleDice function
+function handleDice() {
     if (winner) {
         return
     }
     if (diceValue) {
-        diceEl.classList.remove(diceFaceWipe)
+        diceRollValueEl.classList.remove(diceFaceWipe)
     }
-    diceValue = Math.floor(Math.random() * 6) + 1
-    diceFaceWipe = `d${diceValue}`
-    //console.log(diceEl)
-    showDiceValue()
-
-    // if there are no pieces on the player's pathway and dice value is 6, 
+    clicked = 0
+    handleDiceRoll()
+    console.log(diceValue)
+    render()
+    // if the player doesn't have any active pieces and dice value is 6, 
     // activate the eventlistener for the player's depot
     if (activePieces[turn] === 0 && diceValue !== 6) {
         return
-    } else if (activePieces[turn] < 4 && diceValue === 6) {
-        greenDepotEl.addEventListener('click', handleDepot)
+    } 
+    if (activePieces[turn] < 4 && diceValue === 6) {
+        selectedPiece = false
+        
     }
     // pathEls.forEach(pathEl => {
     //     if (piecePosition[turn].includes(pathEl.id)) {
@@ -157,24 +160,39 @@ function handleDiceRoll() {
     //     }
     // })
 }
+
+// to handle dice roll and randomly assign diceValue
+function handleDiceRoll() {
+    diceValue = Math.floor(Math.random() * 6) + 1
+    diceFaceWipe = `d${diceValue}`
+}
     
-
-
 // to display the value of rolled dice
 function showDiceValue() {
-        diceEl.textContent = ""
-        diceEl.classList.add(`d${diceValue}`)
+    if (diceValue) {
+        diceRollValueEl.classList.add(`d${diceValue}`)
+    }
 }
 
 // to make the first move 
 function handleDepot(event) {
+    //if dice value is not 6 or if they have already selected their piece, return
+    if (diceValue !== 6 || selectedPiece) {
+        return
+    }
     const pieceIndex = event.target.id
-    console.log(pieceIndex)
+    // if the selected depot square is empty, return
+    if (board[pieceIndex] !== turn) {
+        return
+    }    
     board[pieceIndex] = ''
     const startPos = playArea[0]
     console.log(startPos)
     board[startPos] = turn
     render()
+    selectedPiece = true
+    activePieces[turn] += 1
+    diceRollValueEl.classList.remove(diceFaceWipe)
 }
 
 
@@ -197,8 +215,7 @@ function movePiece(index) {
     if(!outOfBounds) {
         board[index] = ''
         board[playArea[newPos]] = turn
-        diceEl.textContent = '🎲'
-        diceEl.classList.remove(diceFaceWipe)
+        diceRollValueEl.classList.remove(diceFaceWipe)
     }
 }
 
@@ -210,8 +227,11 @@ function checkBounds(newPos, playArea) {
 }
 
 /*----------------------------- Event Listeners -----------------------------*/
-diceEl.addEventListener('click', handleDiceRoll)
-
+diceEl.addEventListener('click', handleDice)
+greenDepotEl.addEventListener('click', handleDepot)
+yellowDepotEl.addEventListener('click', handleDepot)
+blueDepotEl.addEventListener('click', handleDepot)
+redDepotEl.addEventListener('click', handleDepot)
 
 
 
