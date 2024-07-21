@@ -42,7 +42,7 @@ const pathWay = {
 
 /*---------------------------- Variables (state) ----------------------------*/
 let numOfPlayers, numOfPieces, turn, selectedPiece, winner, outOfBounds, oobCount, pieceHome, playArea
-let diceFaceWipe, diceValue, diceDisabled, count6, knockOffBonus
+let diceFaceWipe, diceValue, diceDisabled, count6, knockOffBonus, squareBlocked
 let board = []
 
 let playerDepots = []
@@ -122,6 +122,7 @@ function init() {
     selectedPiece = false
     diceDisabled = false
     knockOffBonus = false
+    squareBlocked = false
     render()
 }
 
@@ -262,6 +263,7 @@ function handleClick(event) {
     }
     const currentPos = playArea.indexOf(squareIndex)
     const newPos = currentPos + diceValue
+    const newSquareIndex = playArea[newPos]
     checkBounds(newPos, playArea)
     if (outOfBounds) {
         if(oobCount === activePieces[turn]) {
@@ -271,9 +273,16 @@ function handleClick(event) {
         outOfBounds = false //to switch-back outOfBounds to false after intial outOfBounds message
         return
     }
-    board[squareIndex] = board[squareIndex].replace(turn,'')
-    const newSquareIndex = playArea[newPos]
     checkOccupier(newSquareIndex)
+    if (squareBlocked) {
+        if(activePieces[turn] === 1) {
+            switchPlayerTurn()
+            return
+        }
+        squareBlocked = false
+        return
+    }
+    board[squareIndex] = board[squareIndex].replace(turn,'')
     movePiece(newSquareIndex)
     checkForWinner(newSquareIndex)
     // a player gets an extra roll anytime a 6 is rolled 
@@ -289,11 +298,10 @@ function handleClick(event) {
 
 // to check if the new position is outOfBounds for the player
 function checkBounds(newPos, playArea) {
-
     if(playArea[newPos] === undefined) {
         outOfBounds = true
         oobCount += 1
-    }
+    } 
 }
 
 // to move the piece from current position to new position on the board
@@ -307,6 +315,10 @@ function checkOccupier(newSquareIndex) {
     if (Object.values(homeSquare).includes(newSquareIndex) || Object.values(squareOne).includes(newSquareIndex) || board[newSquareIndex] === ''){
         return
     }
+    if (pathEls[newSquareIndex].textContent.length === 8) {
+        squareBlocked = true
+        return
+    } 
     if (board[newSquareIndex].includes(turn)) {
         return
         //set block for that squareIndex for other players by adding that square to a block list
@@ -321,7 +333,6 @@ function checkOccupier(newSquareIndex) {
                 knockOff(newSquareIndex, player)
             }
         }
-        
     })
 }
 
@@ -364,11 +375,11 @@ function switchPlayerTurn() {
     playArea = pathWay[turn]
     outOfBounds = false
     count6 = 0
+    oobCount = 0
     diceDisabled = false
     selectedPiece = true
+    squareBlocked = false
 }
-
-
 
 /*----------------------------- Event Listeners -----------------------------*/
 diceEl.addEventListener('click', handleDice)
