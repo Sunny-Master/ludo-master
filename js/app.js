@@ -17,6 +17,13 @@ const homeSquare = {
     red: 75,
 }
 
+const squareOne = {
+    green: 47,
+    yellow: 8,
+    blue: 21,
+    red: 34
+}
+
 const pathWay = {
     green: [47, 48, 49, 50, 51, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
          16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 
@@ -34,16 +41,17 @@ const pathWay = {
 
 
 /*---------------------------- Variables (state) ----------------------------*/
-let numOfPlayers, numOfPieces, diceValue, count6, turn, selectedPiece, winner, outOfBounds, oobCount, pieceHome, playArea
-let diceFaceWipe
+let numOfPlayers, numOfPieces, turn, selectedPiece, winner, outOfBounds, oobCount, pieceHome, playArea
+let diceFaceWipe, diceValue, diceDisabled, count6, knockOffBonus
 let board = []
 
-let homeDepots = []
+let playerDepots = []
 
 const activePieces = {}
 
 const piecesWon = {}
 
+const vacantDepot = {}
 // const piecePosition = {}
 
 /*------------------------ Cached Element References ------------------------*/
@@ -79,12 +87,12 @@ function init() {
     for (let i = 0; i < 76; i++) {
         board.push('')
     }
-    homeDepots = ['yellow', 'yellow', 'yellow', 'yellow',
+    playerDepots = ['yellow', 'yellow', 'yellow', 'yellow',
                   'blue', 'blue', 'blue', 'blue',
                   'red', 'red', 'red', 'red',
                   'green', 'green', 'green', 'green' 
      ]
-    homeDepots.forEach(sqr => board.push(sqr))
+    playerDepots.forEach(sqr => board.push(sqr))
     //numOfPlayers = 4
     //numOfPieces = 4
     diceValue = 0
@@ -98,6 +106,10 @@ function init() {
     piecesWon.yellow = 0 
     piecesWon.blue = 0
     piecesWon.red = 0
+    vacantDepot.green = []
+    vacantDepot.yellow = []
+    vacantDepot.blue = []
+    vacantDepot.red = []
     oobCount = 0
     count6 = 0
     // piecePosition.green = [88, 89, 90, 91]
@@ -108,6 +120,8 @@ function init() {
     pieceHome = false
     outOfBounds = false
     selectedPiece = false
+    diceDisabled = false
+    knockOffBonus = false
     render()
 }
 
@@ -184,14 +198,15 @@ function showDiceValue() {
 
 // handleDice function
 function handleDice() {
-    if (winner) {
+    if (winner || diceDisabled) {
         return
     }
     if (diceValue) {
         diceRollValueEl.classList.remove(diceFaceWipe)
     }
     selectedPiece = false
-    handleDiceRoll() 
+    handleDiceRoll()
+    diceDisabled = true 
     /* 
     if player has rolled 6 for the third time in a row, 
     or if the player doesn't have any active pieces and dice value is not 6, 
@@ -228,11 +243,13 @@ function handleDepot(event) {
         return
     }    
     board[pieceIndex] = ''
+    vacantDepot[turn].push(pieceIndex)
     const startPos = playArea[0]
     board[startPos] += turn
     selectedPiece = true
     activePieces[turn] += 1
     console.log(activePieces)
+    diceDisabled = false
     render()
 }
 
@@ -243,14 +260,12 @@ function handleClick(event) {
     if (!board[squareIndex].includes(turn) || selectedPiece) {
         return
     }
-    
     const currentPos = playArea.indexOf(squareIndex)
     const newPos = currentPos + diceValue
     checkBounds(newPos, playArea)
     if (outOfBounds) {
         if(oobCount === activePieces[turn]) {
             switchPlayerTurn()
-            selectedPiece = true
             return
         } 
         outOfBounds = false //to switch-back outOfBounds to false after intial outOfBounds message
@@ -258,30 +273,67 @@ function handleClick(event) {
     }
     board[squareIndex] = board[squareIndex].replace(turn,'')
     const newSquareIndex = playArea[newPos]
+    checkOccupier(newSquareIndex)
     movePiece(newSquareIndex)
     checkForWinner(newSquareIndex)
     // a player gets an extra roll anytime a 6 is rolled 
-    if (diceValue !== 6) {
+    if (diceValue !== 6 && !knockOffBonus) {
         switchPlayerTurn()
+    } else {
+        diceDisabled = false
+        selectedPiece = true
+        knockOffBonus = false
     }
     render()
-    
-}
-
-// to move the piece from current position to new position on the board
-function movePiece(newSquareIndex) {
-        board[newSquareIndex] += turn
-        selectedPiece = true
-        diceRollValueEl.classList.remove(diceFaceWipe)
 }
 
 // to check if the new position is outOfBounds for the player
 function checkBounds(newPos, playArea) {
+
     if(playArea[newPos] === undefined) {
         outOfBounds = true
         oobCount += 1
     }
 }
+
+// to move the piece from current position to new position on the board
+function movePiece(newSquareIndex) {
+        board[newSquareIndex] += turn
+        diceRollValueEl.classList.remove(diceFaceWipe)
+}
+
+// check if the same square is occupied by piece of other player
+function checkOccupier(newSquareIndex) {
+    if (Object.values(homeSquare).includes(newSquareIndex) || Object.values(squareOne).includes(newSquareIndex) || board[newSquareIndex] === ''){
+        return
+    }
+    if (board[newSquareIndex].includes(turn)) {
+        return
+        //set block for that squareIndex for other players by adding that square to a block list
+        // create a seperate remove block function when only one piece occupies a square that in not a home square
+    }
+    Object.keys(homeSquare).forEach(player => {
+        // check which other player's piece is occupying the square
+        // that particular piece will be knocked off the play area and moved back to its depot. 
+        // that piece can then only be activated by rolling a 6 by the respective player
+        if (player !== turn) {
+            if (board[newSquareIndex] === player) {
+                knockOff(newSquareIndex, player)
+            }
+        }
+        
+    })
+}
+
+// knock off player piece back to depot
+function knockOff(index, player) {
+    board[index] = board[index].replace(player,'')
+    let depotIndex = vacantDepot[player].pop()
+    board[depotIndex] = player
+    activePieces[player] -= 1
+    knockOffBonus = true
+}
+
 
 // check if there is a winner
 function checkForWinner(newSquareIndex) {
@@ -312,6 +364,8 @@ function switchPlayerTurn() {
     playArea = pathWay[turn]
     outOfBounds = false
     count6 = 0
+    diceDisabled = false
+    selectedPiece = true
 }
 
 
