@@ -2,13 +2,10 @@ console.log('this is linked')
 
 /*-------------------------------- Constants --------------------------------*/
 const pieceObject = {
-    green: '💚',
-    yellow: '💛',
-    blue: '💙',
-    red: '🧡',
-    // greengreen: '💚💚',
-    // greengreengreen: '💚💚💚',
-    // greengreengreengreen: '💚💚💚💚',
+    green: '🥑',
+    yellow: '🍍',
+    blue: '🍄',
+    red: '🍉',
 }
 
 const turnSequence = ['green', 'yellow', 'blue', 'red']
@@ -147,6 +144,11 @@ function updateBoard() {
             }
         }
         pathEls[idx].textContent = displayPieces
+        if(displayPieces.length > 2) {
+            pathEls[idx].classList.add ('multi')
+        } else {
+            pathEls[idx].classList.remove('multi')
+        }
     })
 }
 

@@ -175,6 +175,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 25px;
   }
   
   .ylw-path {
@@ -217,4 +218,8 @@
   .home {
     border: none;
     background-color: transparent; 
+  }
+
+  .multi {
+    font-size: 13px;
   }
