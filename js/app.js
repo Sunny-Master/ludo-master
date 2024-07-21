@@ -6,9 +6,9 @@ const pieceObject = {
     yellow: '💛',
     blue: '💙',
     red: '🧡',
-    greengreen: '💚💚',
-    greengreengreen: '💚💚💚',
-    greengreengreengreen: '💚💚💚💚',
+    // greengreen: '💚💚',
+    // greengreengreen: '💚💚💚',
+    // greengreengreengreen: '💚💚💚💚',
 }
 
 const turnSequence = ['green', 'yellow', 'blue', 'red']
@@ -37,7 +37,7 @@ const pathWay = {
 
 
 /*---------------------------- Variables (state) ----------------------------*/
-let numOfPlayers, numOfPieces, diceValue, turn, selectedPiece, winner, outOfBounds, pieceHome, playArea
+let numOfPlayers, numOfPieces, diceValue, turn, selectedPiece, winner, outOfBounds, oobCount, pieceHome, playArea
 let diceFaceWipe
 let board = []
 
@@ -101,6 +101,7 @@ function init() {
     piecesWon.yellow = 0 
     piecesWon.blue = 0
     piecesWon.red = 0
+    oobCount = 0
     // piecePosition.green = [88, 89, 90, 91]
     // piecePosition.yellow = [76, 77, 78, 79] 
     // piecePosition.blue = [80, 81, 82, 83]
@@ -124,8 +125,28 @@ function render() {
 //to update the board with game state
 function updateBoard() {
     board.forEach((cell, idx) => {
-        //console.log(pathSquareEls[idx])
-        pathEls[idx].textContent = pieceObject[cell]
+        let displayPieces = ''
+        if (cell.includes('green')) {
+            for (let i = 0; i < cell.match(/green/g).length; i++) {
+                displayPieces += pieceObject['green']
+            }
+        }
+        if (cell.includes('yellow')) {
+            for (let i = 0; i < cell.match(/yellow/g).length; i++) {
+                displayPieces += pieceObject['yellow']
+            }
+        }
+        if (cell.includes('blue')) {
+            for (let i = 0; i < cell.match(/blue/g).length; i++) {
+                displayPieces += pieceObject['blue']
+            }
+        }
+        if (cell.includes('red')) {
+            for (let i = 0; i < cell.match(/red/g).length; i++) {
+                displayPieces += pieceObject['red']
+            }
+        }
+        pathEls[idx].textContent = displayPieces
     })
 }
 
@@ -153,6 +174,9 @@ function showDiceValue() {
     if (diceValue) {
         diceRollValueEl.classList.add(`d${diceValue}`)
     }
+    if (selectedPiece) {
+        diceRollValueEl.classList.remove(diceFaceWipe)
+    }
 }
 
 // handleDice function
@@ -163,15 +187,16 @@ function handleDice() {
     if (diceValue) {
         diceRollValueEl.classList.remove(diceFaceWipe)
     }
+    selectedPiece = false
     handleDiceRoll()
-    console.log(diceValue)
     // if the player doesn't have any active pieces and dice value is not 6, 
     // switch player turn
     if (activePieces[turn] === 0 && diceValue !== 6) {
         switchPlayerTurn()
+        selectedPiece = true
     }
     render()
-    selectedPiece = false
+    
      
     // activate piece selection from depot if dice value is 6
     // if (diceValue === 6) {
@@ -189,6 +214,7 @@ function handleDice() {
 function handleDiceRoll() {
     diceValue = Math.floor(Math.random() * 6) + 1
     diceFaceWipe = `d${diceValue}`
+    console.log(diceFaceWipe)
 }
     
 
@@ -206,10 +232,11 @@ function handleDepot(event) {
     board[pieceIndex] = ''
     const startPos = playArea[0]
     board[startPos] += turn
+    console.log(board[startPos])
     selectedPiece = true
     activePieces[turn] += 1
+    console.log(activePieces)
     render()
-    diceRollValueEl.classList.remove(diceFaceWipe)
 }
 
 
@@ -222,8 +249,12 @@ function handleClick(event) {
     const currentPos = playArea.indexOf(squareIndex)
     const newPos = currentPos + diceValue
     checkBounds(newPos, playArea)
-    if(outOfBounds) {
-        if (activePieces[turn] === 1)
+    if (outOfBounds) {
+        if(oobCount === activePieces[turn]) {
+            switchPlayerTurn()
+            selectedPiece = true
+            return
+        } 
         outOfBounds = false //to switch-back outOfBounds to false after intial outOfBounds message
         return
     }
@@ -235,7 +266,7 @@ function handleClick(event) {
     console.log(winner)
     switchPlayerTurn()
     render()
-    pieceHome = false
+    
 }
 
 // to move the piece from current position to new position on the board
@@ -249,11 +280,13 @@ function movePiece(newSquareIndex) {
 function checkBounds(newPos, playArea) {
     if(playArea[newPos] === undefined) {
         outOfBounds = true
+        oobCount += 1
     }
 }
 
 // check if there is a winner
 function checkForWinner(newSquareIndex) {
+    pieceHome = false
     console.log(newSquareIndex !== homeSquare[turn])
     if (newSquareIndex !== homeSquare[turn]){
         return
