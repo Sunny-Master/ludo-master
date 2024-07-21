@@ -34,7 +34,7 @@ const pathWay = {
 
 
 /*---------------------------- Variables (state) ----------------------------*/
-let numOfPlayers, numOfPieces, diceValue, turn, selectedPiece, winner, outOfBounds, oobCount, pieceHome, playArea
+let numOfPlayers, numOfPieces, diceValue, count6, turn, selectedPiece, winner, outOfBounds, oobCount, pieceHome, playArea
 let diceFaceWipe
 let board = []
 
@@ -99,6 +99,7 @@ function init() {
     piecesWon.blue = 0
     piecesWon.red = 0
     oobCount = 0
+    count6 = 0
     // piecePosition.green = [88, 89, 90, 91]
     // piecePosition.yellow = [76, 77, 78, 79] 
     // piecePosition.blue = [80, 81, 82, 83]
@@ -176,7 +177,7 @@ function showDiceValue() {
     if (diceValue) {
         diceRollValueEl.classList.add(`d${diceValue}`)
     }
-    if (selectedPiece) {
+    if (activePieces[turn] && selectedPiece) {
         diceRollValueEl.classList.remove(diceFaceWipe)
     }
 }
@@ -190,35 +191,30 @@ function handleDice() {
         diceRollValueEl.classList.remove(diceFaceWipe)
     }
     selectedPiece = false
-    handleDiceRoll()
-    // if the player doesn't have any active pieces and dice value is not 6, 
-    // switch player turn
-    if (activePieces[turn] === 0 && diceValue !== 6) {
+    handleDiceRoll() 
+    /* 
+    if player has rolled 6 for the third time in a row, 
+    or if the player doesn't have any active pieces and dice value is not 6, 
+    switch player turn &
+    make sure the next player is not able to move piece without rolling a dice
+    */
+    if ((count6 === 3) || (activePieces[turn] === 0 && diceValue !== 6)) {
         switchPlayerTurn()
+        count6 = 0
         selectedPiece = true
     }
     render()
-    
-     
-    // activate piece selection from depot if dice value is 6
-    // if (diceValue === 6) {
-    //     selectedPiece = false
-        
-    // }
-    // pathEls.forEach(pathEl => {
-    //     if (piecePosition[turn].includes(pathEl.id)) {
-    //         pathEl.addEventListener('click', handleClick)
-    //     }
-    // })
 }
 
 // to handle dice roll and randomly assign diceValue
 function handleDiceRoll() {
     diceValue = Math.floor(Math.random() * 6) + 1
     diceFaceWipe = `d${diceValue}`
+    if (diceValue === 6) {
+        count6 += 1
+    }
     console.log(diceFaceWipe)
 }
-    
 
 // to make the first move 
 function handleDepot(event) {
@@ -234,7 +230,6 @@ function handleDepot(event) {
     board[pieceIndex] = ''
     const startPos = playArea[0]
     board[startPos] += turn
-    console.log(board[startPos])
     selectedPiece = true
     activePieces[turn] += 1
     console.log(activePieces)
@@ -248,6 +243,7 @@ function handleClick(event) {
     if (!board[squareIndex].includes(turn) || selectedPiece) {
         return
     }
+    
     const currentPos = playArea.indexOf(squareIndex)
     const newPos = currentPos + diceValue
     checkBounds(newPos, playArea)
@@ -264,9 +260,10 @@ function handleClick(event) {
     const newSquareIndex = playArea[newPos]
     movePiece(newSquareIndex)
     checkForWinner(newSquareIndex)
-    console.log(pieceHome)
-    console.log(winner)
-    switchPlayerTurn()
+    // a player gets an extra roll anytime a 6 is rolled 
+    if (diceValue !== 6) {
+        switchPlayerTurn()
+    }
     render()
     
 }
@@ -289,7 +286,6 @@ function checkBounds(newPos, playArea) {
 // check if there is a winner
 function checkForWinner(newSquareIndex) {
     pieceHome = false
-    console.log(newSquareIndex !== homeSquare[turn])
     if (newSquareIndex !== homeSquare[turn]){
         return
     }
@@ -304,7 +300,7 @@ function checkForWinner(newSquareIndex) {
 
 // to switch turn to next player in the turn sequence
 function switchPlayerTurn() {
-    if (winner || diceValue === 6) {
+    if (winner) {
         return
     }
     if (turn === 'red') {
@@ -315,6 +311,7 @@ function switchPlayerTurn() {
     console.log(turn)
     playArea = pathWay[turn]
     outOfBounds = false
+    count6 = 0
 }
 
 
