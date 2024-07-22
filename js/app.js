@@ -171,14 +171,16 @@ function updateBoard() {
 // to update the message element text to display the game state
 function updateMessage() {
     if (!winner && !pieceHome && activePieces[turn] === 0) {
-        messageEl.textContent = `${pieceObject[turn]}'s turn. Please roll the dice and get a '6' to make a move`
-        // if (diceValue !== 6) {
-        //     messageEl.textContent = `${pieceObject[turn]} didn't get a '6'. Better luck in the next roll of Dice`
-        // } else {
-        //     messageEl.textContent = `${pieceObject[turn]} needs to select a piece from depot to make a move`
-        // }
+        messageEl.textContent = `${pieceObject[turn]}'s turn. Please roll the dice and get a SIX to make a move`
+        if (diceDisabled) {
+            firstRoll()
+        }
     } else if(winner === false && pieceHome === false) {
-        messageEl.textContent = `${pieceObject[turn]}'s turn. Please roll the dice and select piece to move`
+        if (count6 === 3) {
+            messageEl.textContent = `Rule of 3 Sixes: You lose the turn!!`
+        } else {
+            messageEl.textContent = `${pieceObject[turn]}'s turn. Roll the dice and select your piece to move`
+        }
     } else if (winner === false && pieceHome) {
         messageEl.textContent = `${pieceObject[turn]}'s piece reached home!! ${4 - piecesWon[turn]} more piece(s) to Win`
         pieceHome = false // to reset pieceHome after e piece reaches home
@@ -187,13 +189,19 @@ function updateMessage() {
     }
 }
 
+// to render a message based on different dice roll condition when there are no activePieces
+function firstRoll() {
+    if (diceValue !== 6) {
+        messageEl.textContent = `${pieceObject[turn]} didn't get a SIX. Better luck in the next roll of Dice`
+   } else {
+        messageEl.textContent = `${pieceObject[turn]} got a SIX! Select a piece from depot to make a move`
+   }
+}
+
 // to display the value of rolled dice
 function showDiceValue() {
     if (diceValue) {
         diceRollValueEl.classList.add(`d${diceValue}`)
-    }
-    if (activePieces[turn] && selectedPiece) {
-        diceRollValueEl.classList.remove(diceFaceWipe)
     }
 }
 
@@ -207,7 +215,8 @@ function handleDice() {
     }
     selectedPiece = false
     handleDiceRoll()
-    diceDisabled = true 
+    diceDisabled = true
+    render() 
     /* 
     if player has rolled 6 for the third time in a row, 
     or if the player doesn't have any active pieces and dice value is not 6, 
@@ -216,10 +225,8 @@ function handleDice() {
     */
     if ((count6 === 3) || (activePieces[turn] === 0 && diceValue !== 6)) {
         switchPlayerTurn()
-        count6 = 0
-        selectedPiece = true
     }
-    render()
+    setTimeout(() => render(), 3000)
 }
 
 // to handle dice roll and randomly assign diceValue
@@ -285,6 +292,7 @@ function handleClick(event) {
     board[squareIndex] = board[squareIndex].replace(turn,'')
     movePiece(newSquareIndex)
     checkForWinner(newSquareIndex)
+    render()
     // a player gets an extra roll anytime a 6 is rolled 
     if (diceValue !== 6 && !knockOffBonus) {
         switchPlayerTurn()
@@ -293,7 +301,12 @@ function handleClick(event) {
         selectedPiece = true
         knockOffBonus = false
     }
-    render()
+    if (pieceHome) {
+        setTimeout(() => render(), 3000)
+    }
+    else {
+        render()
+    }
 }
 
 // to check if the new position is outOfBounds for the player
@@ -307,7 +320,7 @@ function checkBounds(newPos, playArea) {
 // to move the piece from current position to new position on the board
 function movePiece(newSquareIndex) {
         board[newSquareIndex] += turn
-        diceRollValueEl.classList.remove(diceFaceWipe)
+        // diceRollValueEl.classList.remove(diceFaceWipe)
 }
 
 // check if the same square is occupied by piece of other player
