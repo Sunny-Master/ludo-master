@@ -41,8 +41,8 @@ const pathWay = {
 
 
 /*---------------------------- Variables (state) ----------------------------*/
-let numOfPlayers, numOfPieces, turn, selectedPiece, winner, outOfBounds, oobCount, pieceHome, playArea
-let diceFaceWipe, diceValue, diceDisabled, count6, knockOffBonus, squareBlocked
+let numOfPlayers, numOfPieces, turn, selectedPiece, winner, outOfBounds, pieceHome, playArea
+let diceFaceWipe, diceValue, diceDisabled, count6, knockOffBonus
 let board 
 
 let playerDepots
@@ -110,7 +110,6 @@ function init() {
     vacantDepot.yellow = []
     vacantDepot.blue = []
     vacantDepot.red = []
-    oobCount = 0
     count6 = 0
     // piecePosition.green = [88, 89, 90, 91]
     // piecePosition.yellow = [76, 77, 78, 79] 
@@ -120,9 +119,8 @@ function init() {
     pieceHome = false
     outOfBounds = false
     selectedPiece = false
-    diceDisabled = false
-    knockOffBonus = false
-    squareBlocked = false
+    diceDisabled = true
+    knockOffBonus = false    
     render()
 }
 
@@ -130,6 +128,7 @@ init()
 
 //function to render the board
 function render() {
+    updateDepots()
     updateBoard()
     updateMessage()
     showDiceValue()
@@ -142,11 +141,17 @@ function playerSelection() {
     }
     numOfPlayers = parseInt(selectPlayersEl.value)
     console.log(numOfPlayers)
-    render()
+    setTimeout(() => {
+        diceDisabled = false
+        render()
+    }, 1500)
 }
 
 // to update the depots based on number of players
 function updateDepots() {
+    if (diceValue) {
+        return
+    }
     for (let i = 0; i < 76; i++) {
         board[i] =''
     }
@@ -174,7 +179,6 @@ function updateDepots() {
 
 //to update the board with game state
 function updateBoard() {
-    updateDepots()
     board.forEach((cell, idx) => {
         let displayPieces = ''
         if (cell.includes('green')) {
@@ -211,7 +215,11 @@ function updateMessage() {
     if (numOfPlayers === 0) {
         messageEl.textContent = 'Select Number of Players to Start the Game!'
     } else if (!winner && !pieceHome && activePieces[turn] === 0) {
-        messageEl.textContent = `${pieceObject[turn]}'s turn. Roll the Dice and get a SIX to make your First move!`
+        if (outOfBounds) {
+            messageEl.textContent = `Out Of Bounds!! You lose the turn! ${pieceObject[turn]}'s turn. Roll the Dice!`
+        } else {
+            messageEl.textContent = `${pieceObject[turn]}'s turn. Roll the Dice and get a SIX to make your First move!`
+        }
         if (diceDisabled) {
             firstMove()
         }
@@ -223,7 +231,6 @@ function updateMessage() {
         }
     } else if (winner === false && pieceHome) {
         messageEl.textContent = `BOOYAKASHA!! ${pieceObject[turn]}'s Piece reached HOME!! Get ${4 - piecesWon[turn]} more Piece(s) Home to Win`
-        pieceHome = false // to reset pieceHome after e piece reaches home
     } else {
         messageEl.textContent = `BOOYAKASHA!! ${pieceObject[turn]} is the LUDO MASTER!! Congratulations!!`
     }
@@ -240,25 +247,25 @@ function firstMove() {
 
 // to render a message when user has rolled a dice when there is/are active piece(s)
 function makeYourMove() {
-    if (diceValue !== 6) {
+    if (outOfBounds) {
+        messageEl.textContent = `Out Of Bounds!! This is not going to be a walk in the park! Select a different Piece!`
+    } else if (diceValue !== 6) {
         messageEl.textContent = `${pieceObject[turn]} got a ${diceValue}! Select an Active Piece to make a move!`
     } else if (count6 === 1) {
         messageEl.textContent = `COWABUNGA!! ${pieceObject[turn]} got a SIX! Select any Piece to make a move!!`
     } else if(count6 === 2) { 
         messageEl.textContent = `BOOYAH!! ${pieceObject[turn]} got a SIX Again! Select any Piece to make a move!!`
-    } else {
-        messageEl.textContent = `Life at best is bittersweet! Take care of Yourself!` 
-    }
+    } else if (count6 === 3) {
+        messageEl.textContent = `OOPS!! Rule of 3 SIXES: You lose the turn!!` 
+    } 
 }
 
 // to render a message when user needs to roll the dice 
 function rollTheDice() {
     if (outOfBounds) {
-        messageEl.textContent = `Out Of Bounds!! This is not going to be a walk in the park!`
-    } else if (knockOffBonus) {
-        messageEl.textContent = `KNOCK OUT bonus!! ${pieceObject[turn]}'s turn. Roll the Dice!`
-    } else if (count6 === 3) {
-        messageEl.textContent = `Rule of 3 SIXES: You lose the turn!!`
+        messageEl.textContent = `Out Of Bounds!! You lose the turn! ${pieceObject[turn]}'s turn. Roll the Dice!`
+    }  else if (knockOffBonus) {
+        messageEl.textContent = `KNOCK OFF bonus!! ${pieceObject[turn]}'s turn. Roll the Dice!`
     } else if (count6 === 1) {
         messageEl.textContent = `${pieceObject[turn]}'s turn. Rule of SIX: Bonus turn!! Roll the Dice!`
     } else if (count6 === 2) {
@@ -287,6 +294,8 @@ function handleDice() {
     selectedPiece = false
     handleDiceRoll()
     diceDisabled = true
+    knockOffBonus = false // to reset knockOffBonus from previous turn
+    outOfBounds = false // to reset outOfBounds from previous turn
     render() 
     /* 
     if player has rolled 6 for the third time in a row, 
@@ -297,7 +306,7 @@ function handleDice() {
     if ((count6 === 3) || (activePieces[turn] === 0 && diceValue !== 6)) {
         switchPlayerTurn()
     }
-    setTimeout(() => render(), 3000)
+    setTimeout(() => render(), 1000)
 }
 
 // to handle dice roll and randomly assign diceValue
@@ -341,38 +350,30 @@ function handleClick(event) {
     const currentPos = playArea.indexOf(squareIndex)
     const newPos = currentPos + diceValue
     const newSquareIndex = playArea[newPos]
-    checkBounds(newPos, playArea)
+    checkBounds(newSquareIndex)
     if (outOfBounds) {
-        if(oobCount === activePieces[turn]) {
+        if(activePieces[turn] === 1) {
             switchPlayerTurn()
-            return
         } 
-        outOfBounds = false //to switch-back outOfBounds to false after intial outOfBounds message
+        render()
         return
     }
     checkOccupier(newSquareIndex)
-    if (squareBlocked) {
-        if(activePieces[turn] === 1) {
-            switchPlayerTurn()
-            return
-        }
-        squareBlocked = false
-        return
-    }
     board[squareIndex] = board[squareIndex].replace(turn,'')
     movePiece(newSquareIndex)
     checkForWinner(newSquareIndex)
     render()
-    // a player gets an extra roll anytime a 6 is rolled 
+    // a player gets an extra roll anytime a 6 is rolled or if they knocked off another player's piece
     if (diceValue !== 6 && !knockOffBonus) {
         switchPlayerTurn()
     } else {
         diceDisabled = false
         selectedPiece = true
-        knockOffBonus = false
+        
     }
     if (pieceHome) {
-        setTimeout(() => render(), 3000)
+        pieceHome = false // to reset pieceHome for the next turn
+        setTimeout(() => render(), 4000)
     }
     else {
         render()
@@ -380,33 +381,18 @@ function handleClick(event) {
 }
 
 // to check if the new position is outOfBounds for the player
-function checkBounds(newPos, playArea) {
-    if(playArea[newPos] === undefined) {
+function checkBounds(newSquareIndex) {
+    outOfBounds = false //to switch-back outOfBounds to false after intial outOfBounds message
+    if(newSquareIndex === undefined || pathEls[newSquareIndex].textContent.length === 8) {
         outOfBounds = true
-        oobCount += 1
     } 
-}
-
-// to move the piece from current position to new position on the board
-function movePiece(newSquareIndex) {
-        board[newSquareIndex] += turn
-        // diceRollValueEl.classList.remove(diceFaceWipe)
 }
 
 // check if the same square is occupied by piece of other player
 function checkOccupier(newSquareIndex) {
-    if (Object.values(homeSquare).includes(newSquareIndex) || Object.values(squareOne).includes(newSquareIndex) || board[newSquareIndex] === ''){
-        return
-    }
-    if (pathEls[newSquareIndex].textContent.length === 8) {
-        squareBlocked = true
+    if (Object.values(squareOne).includes(newSquareIndex) || board[newSquareIndex] === ''){
         return
     } 
-    if (board[newSquareIndex].includes(turn)) {
-        return
-        //set block for that squareIndex for other players by adding that square to a block list
-        // create a seperate remove block function when only one piece occupies a square that in not a home square
-    }
     Object.keys(homeSquare).forEach(player => {
         // check which other player's piece is occupying the square
         // that particular piece will be knocked off the play area and moved back to its depot. 
@@ -428,10 +414,14 @@ function knockOff(index, player) {
     knockOffBonus = true
 }
 
+// to move the piece from current position to new position on the board
+function movePiece(newSquareIndex) {
+    board[newSquareIndex] += turn
+    // diceRollValueEl.classList.remove(diceFaceWipe)
+}
 
 // check if there is a winner
 function checkForWinner(newSquareIndex) {
-    pieceHome = false
     if (newSquareIndex !== homeSquare[turn]){
         return
     }
@@ -451,17 +441,16 @@ function switchPlayerTurn() {
     }
     if (turn === 'red') {
         turn = turnSequence[0]
-    } else {
+    } else if (numOfPlayers === 4) {
         turn = turnSequence[turnSequence.indexOf(turn) + 1]
+    } else {
+        turn = turn === 'green' ? turn = 'blue' : turn = 'green'
     }
     console.log(turn)
     playArea = pathWay[turn]
-    outOfBounds = false
     count6 = 0
-    oobCount = 0
     diceDisabled = false
     selectedPiece = true
-    squareBlocked = false
 }
 
 
