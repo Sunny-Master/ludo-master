@@ -26,9 +26,11 @@
     margin-bottom: 0;
   }
 
-  label, select {
+ select {
     font-size: 20px;
     font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
   }
 
   #players-select {

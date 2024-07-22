@@ -91,16 +91,9 @@ const resetBtnEl = document.querySelector('#reset')
 function init() {
     board = []
     diceRollValueEl.className = 'dice'
-    for (let i = 0; i < 76; i++) {
-        board.push('')
-    }
-    playerDepots = ['yellow', 'yellow', 'yellow', 'yellow',
-                  'blue', 'blue', 'blue', 'blue',
-                  'red', 'red', 'red', 'red',
-                  'green', 'green', 'green', 'green' 
-     ]
-    playerDepots.forEach(sqr => board.push(sqr))
-    //numOfPlayers = 4
+    selectPlayersEl.selectedIndex = 0
+    playerDepots = []
+    numOfPlayers = 0
     //numOfPieces = 4
     diceValue = 0
     turn = 'green'
@@ -142,8 +135,46 @@ function render() {
     showDiceValue()
 }
 
+//setting number of players
+function playerSelection() {
+    if (numOfPlayers !== 0) {
+        return
+    }
+    numOfPlayers = parseInt(selectPlayersEl.value)
+    console.log(numOfPlayers)
+    render()
+}
+
+// to update the depots based on number of players
+function updateDepots() {
+    for (let i = 0; i < 76; i++) {
+        board[i] =''
+    }
+    if (numOfPlayers === 4) {
+        playerDepots = ['yellow', 'yellow', 'yellow', 'yellow',
+            'blue', 'blue', 'blue', 'blue',
+            'red', 'red', 'red', 'red',
+            'green', 'green', 'green', 'green' 
+        ]
+    } else if (numOfPlayers === 2 || numOfPlayers === 1) {
+        playerDepots = ['', '', '', '', 
+                        'blue', 'blue', 'blue', 'blue',
+                        '', '', '', '',
+                        'green', 'green', 'green', 'green'
+        ]
+    } else if (numOfPlayers === 0) {
+        playerDepots = ['', '', '', '',
+                        '', '', '', '',
+                        '', '', '', '',
+                        '', '', '', '',
+        ]
+    } 
+    playerDepots.forEach((sqr, index) => board[76 + index] = sqr)
+}
+
 //to update the board with game state
 function updateBoard() {
+    updateDepots()
     board.forEach((cell, idx) => {
         let displayPieces = ''
         if (cell.includes('green')) {
@@ -177,7 +208,9 @@ function updateBoard() {
 
 // to update the message element text to display the game state
 function updateMessage() {
-    if (!winner && !pieceHome && activePieces[turn] === 0) {
+    if (numOfPlayers === 0) {
+        messageEl.textContent = 'Select Number of Players to Start the Game!'
+    } else if (!winner && !pieceHome && activePieces[turn] === 0) {
         messageEl.textContent = `${pieceObject[turn]}'s turn. Roll the Dice and get a SIX to make your First move!`
         if (diceDisabled) {
             firstMove()
@@ -431,18 +464,11 @@ function switchPlayerTurn() {
     squareBlocked = false
 }
 
-//setting number of players
-function playerSelection() {
-    if (numOfPlayers) {
-        return
-    }
-    numOfPlayers = selectPlayersEl.value
-    console.log(numOfPlayers)
-}
+
 
 /*----------------------------- Event Listeners -----------------------------*/
 
-// selectPlayersEl.addEventListener('click', playerSelection)
+selectPlayersEl.addEventListener('click', playerSelection)
 
 diceEl.addEventListener('click', handleDice)
 greenDepotEl.addEventListener('click', handleDepot)
