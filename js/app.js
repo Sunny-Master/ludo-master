@@ -43,9 +43,9 @@ const pathWay = {
 /*---------------------------- Variables (state) ----------------------------*/
 let numOfPlayers, numOfPieces, turn, selectedPiece, winner, outOfBounds, oobCount, pieceHome, playArea
 let diceFaceWipe, diceValue, diceDisabled, count6, knockOffBonus, squareBlocked
-let board = []
+let board 
 
-let playerDepots = []
+let playerDepots
 
 const activePieces = {}
 
@@ -55,6 +55,10 @@ const vacantDepot = {}
 // const piecePosition = {}
 
 /*------------------------ Cached Element References ------------------------*/
+
+const selectPlayersEl = document.getElementById('selectPlayers')
+
+
 const pathSquareEls = document.querySelectorAll('.path')
 
 // referenced from: https://www.geeksforgeeks.org/fastest-way-to-convert-javascript-nodelist-to-array/
@@ -79,11 +83,14 @@ const blueDepotEl = document.querySelector('#blueBig')
 const diceEl = document.getElementById('dice-button')
 const diceRollValueEl = document.getElementById('dice-value')
 
+const resetBtnEl = document.querySelector('#reset')
 
 /*-------------------------------- Functions --------------------------------*/
 
 // function to initialise the game 
 function init() {
+    board = []
+    diceRollValueEl.className = 'dice'
     for (let i = 0; i < 76; i++) {
         board.push('')
     }
@@ -213,7 +220,9 @@ function makeYourMove() {
 
 // to render a message when user needs to roll the dice 
 function rollTheDice() {
-    if (knockOffBonus) {
+    if (outOfBounds) {
+        messageEl.textContent = `Out Of Bounds!! This is not going to be a walk in the park!`
+    } else if (knockOffBonus) {
         messageEl.textContent = `KNOCK OUT bonus!! ${pieceObject[turn]}'s turn. Roll the Dice!`
     } else if (count6 === 3) {
         messageEl.textContent = `Rule of 3 SIXES: You lose the turn!!`
@@ -422,7 +431,19 @@ function switchPlayerTurn() {
     squareBlocked = false
 }
 
+//setting number of players
+function playerSelection() {
+    if (numOfPlayers) {
+        return
+    }
+    numOfPlayers = selectPlayersEl.value
+    console.log(numOfPlayers)
+}
+
 /*----------------------------- Event Listeners -----------------------------*/
+
+// selectPlayersEl.addEventListener('click', playerSelection)
+
 diceEl.addEventListener('click', handleDice)
 greenDepotEl.addEventListener('click', handleDepot)
 yellowDepotEl.addEventListener('click', handleDepot)
@@ -435,7 +456,7 @@ pathEls.forEach(pathEl => {
     }
 })
 
-
+resetBtnEl.addEventListener('click', init)
 
 
 

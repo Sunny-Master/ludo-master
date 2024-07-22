@@ -220,6 +220,21 @@
     background-color: transparent; 
   }
 
+  .btn {
+    font-size: 20px;
+    margin: 20px;
+    font-weight: bold;
+    width: 100px ;
+    height: 35px;
+    border-radius: 8px;
+    border: none;
+    background-color: #FFDDD2;
+  }
+
+  .btn:hover {
+    background-color: #E29578;
+  }
+  
   .multi {
     font-size: 13px;
   }
