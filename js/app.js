@@ -171,32 +171,61 @@ function updateBoard() {
 // to update the message element text to display the game state
 function updateMessage() {
     if (!winner && !pieceHome && activePieces[turn] === 0) {
-        messageEl.textContent = `${pieceObject[turn]}'s turn. Please roll the dice and get a SIX to make a move`
+        messageEl.textContent = `${pieceObject[turn]}'s turn. Roll the Dice and get a SIX to make your First move!`
         if (diceDisabled) {
-            firstRoll()
+            firstMove()
         }
     } else if(winner === false && pieceHome === false) {
-        if (count6 === 3) {
-            messageEl.textContent = `Rule of 3 Sixes: You lose the turn!!`
+        if (diceDisabled){
+            makeYourMove()
         } else {
-            messageEl.textContent = `${pieceObject[turn]}'s turn. Roll the dice and select your piece to move`
+            rollTheDice()
         }
     } else if (winner === false && pieceHome) {
-        messageEl.textContent = `${pieceObject[turn]}'s piece reached home!! ${4 - piecesWon[turn]} more piece(s) to Win`
+        messageEl.textContent = `BOOYAKASHA!! ${pieceObject[turn]}'s Piece reached HOME!! Get ${4 - piecesWon[turn]} more Piece(s) Home to Win`
         pieceHome = false // to reset pieceHome after e piece reaches home
     } else {
-        messageEl.textContent = `${pieceObject[turn]} won!! Congratulations!!`
+        messageEl.textContent = `BOOYAKASHA!! ${pieceObject[turn]} is the LUDO MASTER!! Congratulations!!`
     }
 }
 
 // to render a message based on different dice roll condition when there are no activePieces
-function firstRoll() {
+function firstMove() {
     if (diceValue !== 6) {
-        messageEl.textContent = `${pieceObject[turn]} didn't get a SIX. Better luck in the next roll of Dice`
+        messageEl.textContent = `${pieceObject[turn]} didn't get a SIX. Better Luck in the next roll of Dice`
    } else {
-        messageEl.textContent = `${pieceObject[turn]} got a SIX! Select a piece from depot to make a move`
+        messageEl.textContent = `COWABUNGA!! ${pieceObject[turn]} got a SIX! Select a Piece from Depot to make a move!`
    }
 }
+
+// to render a message when user has rolled a dice when there is/are active piece(s)
+function makeYourMove() {
+    if (diceValue !== 6) {
+        messageEl.textContent = `${pieceObject[turn]} got a ${diceValue}! Select an Active Piece to make a move!`
+    } else if (count6 === 1) {
+        messageEl.textContent = `COWABUNGA!! ${pieceObject[turn]} got a SIX! Select any Piece to make a move!!`
+    } else if(count6 === 2) { 
+        messageEl.textContent = `BOOYAH!! ${pieceObject[turn]} got a SIX Again! Select any Piece to make a move!!`
+    } else {
+        messageEl.textContent = `Life at best is bittersweet! Take care of Yourself!` 
+    }
+}
+
+// to render a message when user needs to roll the dice 
+function rollTheDice() {
+    if (knockOffBonus) {
+        messageEl.textContent = `KNOCK OUT bonus!! ${pieceObject[turn]}'s turn. Roll the Dice!`
+    } else if (count6 === 3) {
+        messageEl.textContent = `Rule of 3 SIXES: You lose the turn!!`
+    } else if (count6 === 1) {
+        messageEl.textContent = `${pieceObject[turn]}'s turn. Rule of SIX: Bonus turn!! Roll the Dice!`
+    } else if (count6 === 2) {
+        messageEl.textContent = `${pieceObject[turn]}'s turn. Rule of 2 SIXES: Another Bonus turn!! Roll the Dice!`
+    } else {
+        messageEl.textContent = `${pieceObject[turn]}'s turn. Roll the Dice!`
+    }
+}
+
 
 // to display the value of rolled dice
 function showDiceValue() {
@@ -256,7 +285,6 @@ function handleDepot(event) {
     board[startPos] += turn
     selectedPiece = true
     activePieces[turn] += 1
-    console.log(activePieces)
     diceDisabled = false
     render()
 }
