@@ -9,7 +9,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
   }
 
@@ -87,8 +87,8 @@
   }
   
   .depot {
-    width: 240px;
-    height: 240px;
+    width: 40%;
+    height: 40%;
     border: 50px solid;
     outline: 2px solid;
     border-radius: 10px;
@@ -279,6 +279,7 @@
   z-index: 1; /*Specify a stack order*/
   display: flex;
   justify-content: center;
+  overflow-y: auto;
 }
 
 #titleScreen {
@@ -298,8 +299,8 @@ h3 {
 
 .instrList {
   color: white;  
-  font-size: 18px;
+  font-size: 12px;
   text-wrap: wrap;
-  max-width: 960px;
+  max-width: 600px;
 }
 
