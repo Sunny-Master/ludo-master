@@ -85,6 +85,9 @@ const resetBtnEl = document.getElementById('reset')
 
 const titleScreenEl = document.getElementById('titleScreen')
 const startBtnEl = document.getElementById('start')
+const howBtnEl = document.getElementById('instrBtn')
+const backBtnEl = document.getElementById('back')
+const instrScreenEl = document.getElementById('instructions')
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -122,7 +125,8 @@ function init() {
     selectedPiece = false
     diceDisabled = true
     knockOffBonus = false
-    titleScreenEl.style.display = 'block'    
+    titleScreenEl.style.display = '' 
+    instrScreenEl.style.display = 'none'   
     render()
 }
 
@@ -279,18 +283,6 @@ function showDiceValue() {
     if (diceValue) {
         diceRollValueEl.classList.add(`d${diceValue}`)
     }
-}
-
-// to start the game after selecting the numOfPlayers
-function startGame() {
-    if (numOfPlayers === 0) {
-        return
-    }
-    titleScreenEl.style.display = 'none'
-    setTimeout(() => {
-        diceDisabled = false
-        render()
-    }, 1500)
 }
 
 // handleDice function
@@ -519,6 +511,29 @@ function checkAi() {
     }
 }
 
+// to start the game after selecting the numOfPlayers
+function startGame() {
+    if (numOfPlayers === 0) {
+        return
+    }
+    titleScreenEl.style.display = 'none'
+    setTimeout(() => {
+        diceDisabled = false
+        render()
+    }, 1500)
+}
+
+// to show the how to play instructions screen 
+function howToPlay() {
+    instrScreenEl.style.display = ''
+    titleScreenEl.style.display = 'none'
+}
+
+// to return back to same screen where the how to play button was clicked from
+function returnBack() {
+    instrScreenEl.style.display = 'none'
+    titleScreenEl.style.display = ''
+}
 
 /*----------------------------- Event Listeners -----------------------------*/
 
@@ -538,7 +553,8 @@ pathEls.forEach(pathEl => {
 
 resetBtnEl.addEventListener('click', init)
 startBtnEl.addEventListener('click', startGame)
-
+howBtnEl.addEventListener('click', howToPlay)
+backBtnEl.addEventListener('click', returnBack)
 
 
 

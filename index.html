@@ -10,7 +10,7 @@
   <body>
     <header id="header">
       <h1>Ludo Master</h1>
-      
+
       <h2 id="message">Game On!!</h2>
     </header>
     <section id="gameArea">
@@ -151,16 +151,34 @@
         <button id="dice-button" class="dice">🎲</button>
       </section>
     </section>
-    <button class="btn" id="reset">Reset</button>
+    <button class="btn" id="reset">reset</button>
     <div id="titleScreen" class="overlay">
-      <h1 id="titleOnOverlay">Ludo Master</h1>
+      <h1 id="titleOnOverlay" class="textOnOverlay">Ludo Master</h1>
+      <section id="mode">
+      <button id="instrBtn" class="btn">how to play</button>
       <select id="selectPlayers">
-        <option class="option" value="0" selected disabled>Select Players</option>
-        <option class="option" value="1">Play Solo (green vs computer as blue)</option>
+        <option class="option" value="0" selected disabled>
+          Select Players
+        </option>
+        <option class="option" value="1">
+          Play Solo (green vs computer as blue)
+        </option>
         <option class="option" value="2">2 Players (green vs blue)</option>
         <option class="option" value="4">4 Players (the long game)</option>
       </select>
-      <button id="start" class="btn">Start</button>
+      <button id="start" class="btn">start</button>
+    </div>
+  </section>
+    <div id="instructions" class="overlay">
+      <h2 id="instrTitle" class="textOnOverlay">how to play</h2>
+      <ol id="instrList">
+        <li class="instrSteps">step 1</li>
+        <li class="instrSteps">step 2</li>
+        <li class="instrSteps">step 3</li>
+        <li class="instrSteps">step 4</li>
+        <li class="instrSteps">step 5</li>
+      </ol>
+      <button id="back" class="btn">back</button>
     </div>
   </body>
 </html>

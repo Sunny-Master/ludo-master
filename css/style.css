@@ -9,7 +9,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
+    justify-content: center;
     align-items: center;
   }
 
@@ -32,9 +32,7 @@
     margin-bottom: 0;
   }
 
- 
-
-  .dice-container {
+   .dice-container {
     display: flex;
     justify-content: space-between;
     /* flex-direction: column; */
@@ -224,16 +222,17 @@
     font-size: 20px;
     margin: 20px;
     font-weight: bold;
-    width: 100px ;
+    width: 200px;
     height: 35px;
     border-radius: 8px;
     border: none;
-    background-color: #FFDDD2;
+    background-color: rgba(188, 230, 75, 0.911);
     cursor: pointer; /* Add a pointer on hover */
   }
 
   .btn:hover {
-    background-color: #E29578;
+    background-color: rgba(59, 177, 104, 0.911);
+    color: white;
   }
   
   .multi {
@@ -241,46 +240,54 @@
   }
 
   .overlay {
-    position: fixed; /* Sit on top of the page content */
+    position: fixed; /*Sit on top of the page content*/
     display: none; /* Hidden by default */
     width: 100%; /* Full width (cover the whole page) */
     height: 100%; /* Full height (cover the whole page) */
-    top: 0; /* sets vertical position of the overlay from top */
-    left: 0; 
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.8); /* Black background with opacity */
-    /* z-index: 2; Specify a stack order in case you're using a different order for other elements */
+    /* top: 0; /* sets vertical position of the overlay from top */
+    /*left: 0; sets the horizontal position of the overlay from left */
+    background: rgba(0,0,0,0.8); /* Black background with opacity */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
   }
 
+  #mode {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 25%;
+  }
   #titleOnOverlay {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    font-size: 50px;
     color: white;
-    transform: translate(-50%,-50%);
+    font-size: 50px;
   }
 
   select {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    margin-top: 20px;
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%,-50%);
     cursor: pointer; /* Add a pointer on hover */
+    display: block;
   }
 
+#instructions {
+  z-index: 1; /*Specify a stack order*/
+}
 
-  #start {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 100%;
-    color: black;
-    transform: translate(-50%,-50%);
-    margin: 0;
-  }
+#titleScreen {
+  z-index: 2;
+  gap: 50px;
+}
+
+.textOnOverlay {
+  color: white;
+}
+
+#instrList {
+  color: white;  
+  font-size: 25px;
+}
+
