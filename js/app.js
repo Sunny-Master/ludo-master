@@ -56,12 +56,9 @@ const piecePosition = {}
 
 const selectPlayersEl = document.getElementById('selectPlayers')
 
-
 const pathSquareEls = document.querySelectorAll('.path')
-
 // referenced from: https://www.geeksforgeeks.org/fastest-way-to-convert-javascript-nodelist-to-array/
 let pathEls = Array.from(pathSquareEls)
-
 //considering that nodes are objects in an array
 pathEls = pathEls.sort((a,b) => parseInt(a.id) - parseInt(b.id)) 
 
@@ -82,7 +79,6 @@ const diceEl = document.getElementById('dice-button')
 const diceRollValueEl = document.getElementById('dice-value')
 
 const resetBtnEl = document.getElementById('reset')
-
 const titleScreenEl = document.getElementById('titleScreen')
 const startBtnEl = document.getElementById('start')
 const howBtnEl = document.getElementById('instrBtn')

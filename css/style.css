@@ -246,12 +246,12 @@
     height: 100%; /* Full height (cover the whole page) */
     /* top: 0; /* sets vertical position of the overlay from top */
     /*left: 0; sets the horizontal position of the overlay from left */
-    background: rgba(0,0,0,0.8); /* Black background with opacity */
+    background: rgba(0,0,0,0.7); /* Black background with opacity */
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-
+    backdrop-filter: blur(10px); /* Blurs the background*/
   }
 
   #mode {
