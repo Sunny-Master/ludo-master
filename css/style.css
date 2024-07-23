@@ -249,16 +249,18 @@
     background: rgba(0,0,0,0.8); /* Black background with opacity */
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
+
   }
 
   #mode {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    height: 25%;
+    height: 50%;
+    gap: 40px;
   }
   #titleOnOverlay {
     color: white;
@@ -275,6 +277,8 @@
 
 #instructions {
   z-index: 1; /*Specify a stack order*/
+  display: flex;
+  justify-content: center;
 }
 
 #titleScreen {
@@ -284,10 +288,18 @@
 
 .textOnOverlay {
   color: white;
+  text-decoration: underline;
 }
 
-#instrList {
+h3 {
+  color: white;
+  text-align: left;
+}
+
+.instrList {
   color: white;  
-  font-size: 25px;
+  font-size: 18px;
+  text-wrap: wrap;
+  max-width: 960px;
 }
 
