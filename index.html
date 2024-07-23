@@ -8,14 +8,11 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <h1>Ludo Master</h1>
-    <select id="selectPlayers">
-      <option class="option" value="0">--Choose Players--</option>
-      <option class="option" value="2">2 Players</option>
-      <option class="option" value="4">4 Players</option>
-      <option class="option" value="1">Play Solo (with computer)</option>
-    </select>
-    <h2 id="message">Select Number of Players to Start the Game!</h2>
+    <header id="header">
+      <h1>Ludo Master</h1>
+      
+      <h2 id="message">Game On!!</h2>
+    </header>
     <section id="gameArea">
       <section class="board">
         <div id="lvl1" class="flr">
@@ -152,8 +149,18 @@
       <section class="dice-container">
         <div id="dice-value" class="dice"></div>
         <button id="dice-button" class="dice">🎲</button>
-      </section>  
+      </section>
     </section>
     <button class="btn" id="reset">Reset</button>
+    <div id="titleScreen" class="overlay">
+      <h1 id="titleOnOverlay">Ludo Master</h1>
+      <select id="selectPlayers">
+        <option class="option" value="0" selected disabled>Select Players</option>
+        <option class="option" value="2">2 Players</option>
+        <option class="option" value="4">4 Players</option>
+        <option class="option" value="1">Play Solo (with computer)</option>
+      </select>
+      <button id="start" class="btn">Start</button>
+    </div>
   </body>
 </html>

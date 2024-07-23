@@ -1,5 +1,3 @@
-console.log('this is linked')
-
 /*-------------------------------- Constants --------------------------------*/
 const pieceObject = {
     green: '🥑',
@@ -83,7 +81,10 @@ const blueDepotEl = document.querySelector('#blueBig')
 const diceEl = document.getElementById('dice-button')
 const diceRollValueEl = document.getElementById('dice-value')
 
-const resetBtnEl = document.querySelector('#reset')
+const resetBtnEl = document.getElementById('reset')
+
+const titleScreenEl = document.getElementById('titleScreen')
+const startBtnEl = document.getElementById('start')
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -120,7 +121,8 @@ function init() {
     outOfBounds = false
     selectedPiece = false
     diceDisabled = true
-    knockOffBonus = false    
+    knockOffBonus = false
+    titleScreenEl.style.display = 'block'    
     render()
 }
 
@@ -140,10 +142,7 @@ function playerSelection() {
         return
     }
     numOfPlayers = parseInt(selectPlayersEl.value)
-    setTimeout(() => {
-        diceDisabled = false
-        render()
-    }, 1500)
+    
 }
 
 // to update the depots based on number of players
@@ -212,7 +211,7 @@ function updateBoard() {
 // to update the message element text to display the game state
 function updateMessage() {
     if (numOfPlayers === 0) {
-        messageEl.textContent = 'Select Number of Players to Start the Game!'
+        messageEl.textContent = 'Game On!!'
     } else if (winner) {
         messageEl.textContent = `BOOYAKASHA!! ${pieceObject[turn]} is the LUDO MASTER!! Congratulations!!`
     } else if (pieceHome) {
@@ -282,6 +281,18 @@ function showDiceValue() {
     }
 }
 
+// to start the game after selecting the numOfPlayers
+function startGame() {
+    if (numOfPlayers === 0) {
+        return
+    }
+    titleScreenEl.style.display = 'none'
+    setTimeout(() => {
+        diceDisabled = false
+        render()
+    }, 1500)
+}
+
 // handleDice function
 function handleDice() {
     if (winner || diceDisabled) {
@@ -321,7 +332,6 @@ function handleDiceRoll() {
     if (diceValue === 6) {
         count6 += 1
     }
-    console.log(diceFaceWipe)
 }
 
 // to select an AI piece from the depot
@@ -339,7 +349,6 @@ function selectAiPiece() {
     }
 }
 
-
 // to make the first move 
 function handleDepot(event) {
     //if dice value is not 6 or if they have already selected their piece, return
@@ -348,7 +357,6 @@ function handleDepot(event) {
     }
     let pieceIndex
     if (numOfPlayers === 1 && turn !== 'green') {
-        console.log(event.id) // TESTING
         pieceIndex = event.id
     } else {
         pieceIndex = parseInt(event.target.id)
@@ -379,7 +387,6 @@ function selectActiveAiPiece(){
                 activePieceIndex.push(pathIdx)
             }
         })
-        console.log(activePieceIndex)
         if(outOfBounds && activePieces[turn] > 1) {
             handleClick(pathEls[activePieceIndex.at(0)])
         } else {
@@ -392,7 +399,6 @@ function selectActiveAiPiece(){
 function handleClick(event) {
     let squareIndex
     if (numOfPlayers === 1 && turn !== 'green') {
-        console.log(event.id) // TESTING
         squareIndex = parseInt(event.id)
     } else {
         squareIndex = parseInt(event.target.id)
@@ -481,7 +487,6 @@ function checkForWinner(newSquareIndex) {
     }
     pieceHome = true
     piecesWon[turn] += 1
-    console.log(piecesWon[turn])
     activePieces[turn] -= 1
     if (piecesWon[turn] === 4) {
         winner = true
@@ -532,6 +537,7 @@ pathEls.forEach(pathEl => {
 })
 
 resetBtnEl.addEventListener('click', init)
+startBtnEl.addEventListener('click', startGame)
 
 
 

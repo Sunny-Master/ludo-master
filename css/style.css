@@ -9,7 +9,13 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
+    align-items: center;
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
     align-items: center;
   }
 
@@ -26,16 +32,7 @@
     margin-bottom: 0;
   }
 
- select {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 20px;
-  }
-
-  #players-select {
-    margin: 20px;
-  }
+ 
 
   .dice-container {
     display: flex;
@@ -239,4 +236,49 @@
   
   .multi {
     font-size: 13px;
+  }
+
+  .overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0; /* sets vertical position of the overlay from top */
+    left: 0; 
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.8); /* Black background with opacity */
+    /* z-index: 2; Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+  }
+
+  #titleOnOverlay {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    font-size: 50px;
+    color: white;
+    transform: translate(-50%,-50%);
+  }
+
+  select {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+
+
+  #start {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 100%;
+    color: black;
+    transform: translate(-50%,-50%);
+    margin: 0;
   }
