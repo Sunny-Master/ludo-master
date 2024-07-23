@@ -52,7 +52,7 @@ const activePieces = {}
 const piecesWon = {}
 
 const vacantDepot = {}
-// const piecePosition = {}
+const piecePosition = {}
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -111,10 +111,10 @@ function init() {
     vacantDepot.blue = []
     vacantDepot.red = []
     count6 = 0
-    // piecePosition.green = [88, 89, 90, 91]
-    // piecePosition.yellow = [76, 77, 78, 79] 
-    // piecePosition.blue = [80, 81, 82, 83]
-    // piecePosition.red = [84, 85, 86, 87]
+    piecePosition.green = [88, 89, 90, 91]
+    piecePosition.yellow = [76, 77, 78, 79] 
+    piecePosition.blue = [80, 81, 82, 83]
+    piecePosition.red = [84, 85, 86, 87]
     winner = false
     pieceHome = false
     outOfBounds = false
@@ -140,7 +140,6 @@ function playerSelection() {
         return
     }
     numOfPlayers = parseInt(selectPlayersEl.value)
-    console.log(numOfPlayers)
     setTimeout(() => {
         diceDisabled = false
         render()
@@ -305,8 +304,13 @@ function handleDice() {
     */
     if ((count6 === 3) || (activePieces[turn] === 0 && diceValue !== 6)) {
         switchPlayerTurn()
+    } 
+    setTimeout(() => render(), 2000)
+    if ((activePieces[turn] + piecesWon[turn]) < 4 && diceValue === 6) {
+        setTimeout(() => selectAiPiece(), 3000)
+    } else if (numOfPlayers === 1 && turn !== 'green' && (activePieces[turn] !== 0)) {
+        setTimeout(() => selectActiveAiPiece(), 4000)
     }
-    setTimeout(() => render(), 1000)
 }
 
 // to handle dice roll and randomly assign diceValue
@@ -319,13 +323,35 @@ function handleDiceRoll() {
     console.log(diceFaceWipe)
 }
 
+// to select an AI piece from the depot
+function selectAiPiece() {
+    if (numOfPlayers === 1 && turn !== 'green') {
+        let depotIndex 
+        piecePosition[turn].forEach(index => {
+            if (board[index] !== '') {
+                depotIndex = index
+            }
+        })
+        if ((activePieces[turn] + piecesWon[turn]) < 4) {
+        handleDepot(pathEls[depotIndex])
+        }
+    }
+}
+
+
 // to make the first move 
 function handleDepot(event) {
     //if dice value is not 6 or if they have already selected their piece, return
     if (diceValue !== 6 || selectedPiece) {
         return
     }
-    const pieceIndex = event.target.id
+    let pieceIndex
+    if (numOfPlayers === 1 && turn !== 'green') {
+        console.log(event.id) // TESTING
+        pieceIndex = event.id
+    } else {
+        pieceIndex = parseInt(event.target.id)
+    }
     // if the selected depot square is empty, return
     if (board[pieceIndex] !== turn) {
         return
@@ -338,12 +364,38 @@ function handleDepot(event) {
     activePieces[turn] += 1
     diceDisabled = false
     render()
+    if (diceValue === 6 && count6 !== 3) {
+        setTimeout(() => checkAi(), 3000)
+    }
 }
 
+// select an AI Piece when there is atleast 1 active AI Piece
+function selectActiveAiPiece(){
+    if (numOfPlayers === 1 && turn !== 'green') {
+        let activePieceIndex = []
+        pathWay[turn].forEach((pathIdx) => {
+            if (board[pathIdx].includes(turn) && pathIdx !== homeSquare[turn]) {
+                activePieceIndex.push(pathIdx)
+            }
+        })
+        console.log(activePieceIndex)
+        if(outOfBounds && activePieces[turn] > 1) {
+            handleClick(pathEls[activePieceIndex.at(0)])
+        } else {
+            handleClick(pathEls[activePieceIndex.at(-1)])
+        }
+    }
+}
 
 //to handle the piece selection by the player
 function handleClick(event) {
-    const squareIndex = parseInt(event.target.id)
+    let squareIndex
+    if (numOfPlayers === 1 && turn !== 'green') {
+        console.log(event.id) // TESTING
+        squareIndex = parseInt(event.id)
+    } else {
+        squareIndex = parseInt(event.target.id)
+    }
     if (!board[squareIndex].includes(turn) || selectedPiece) {
         return
     }
@@ -356,6 +408,7 @@ function handleClick(event) {
             switchPlayerTurn()
         } 
         render()
+        setInterval(() => selectActiveAiPiece(), 3000)
         return
     }
     checkOccupier(newSquareIndex)
@@ -443,7 +496,7 @@ function switchPlayerTurn() {
         turn = turnSequence[0]
     } else if (numOfPlayers === 4) {
         turn = turnSequence[turnSequence.indexOf(turn) + 1]
-    } else {
+    } else  {
         turn = turn === 'green' ? turn = 'blue' : turn = 'green'
     }
     console.log(turn)
@@ -451,8 +504,15 @@ function switchPlayerTurn() {
     count6 = 0
     diceDisabled = false
     selectedPiece = true
+    setTimeout(() => checkAi(), 4000)
 }
 
+// to check if its Solo Player playing with computer
+function checkAi() {
+    if (numOfPlayers === 1 && turn !== 'green') {
+        handleDice()
+    }
+}
 
 
 /*----------------------------- Event Listeners -----------------------------*/
