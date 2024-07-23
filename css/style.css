@@ -175,6 +175,7 @@
     justify-content: center;
     align-items: center;
     font-size: 25px;
+    cursor: pointer;
   }
   
   .ylw-path {
@@ -228,6 +229,7 @@
     border-radius: 8px;
     border: none;
     background-color: #FFDDD2;
+    cursor: pointer; /* Add a pointer on hover */
   }
 
   .btn:hover {
@@ -249,7 +251,6 @@
     bottom: 0;
     background-color: rgba(0,0,0,0.8); /* Black background with opacity */
     /* z-index: 2; Specify a stack order in case you're using a different order for other elements */
-    cursor: pointer; /* Add a pointer on hover */
   }
 
   #titleOnOverlay {
@@ -270,6 +271,7 @@
     top: 35%;
     left: 50%;
     transform: translate(-50%,-50%);
+    cursor: pointer; /* Add a pointer on hover */
   }
 
 
