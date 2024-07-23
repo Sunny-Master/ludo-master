@@ -213,6 +213,10 @@ function updateBoard() {
 function updateMessage() {
     if (numOfPlayers === 0) {
         messageEl.textContent = 'Select Number of Players to Start the Game!'
+    } else if (winner) {
+        messageEl.textContent = `BOOYAKASHA!! ${pieceObject[turn]} is the LUDO MASTER!! Congratulations!!`
+    } else if (pieceHome) {
+        messageEl.textContent = `BOOYAKASHA!! ${pieceObject[turn]}'s Piece reached HOME!! Get ${4 - piecesWon[turn]} more Piece(s) Home to Win`
     } else if (!winner && !pieceHome && activePieces[turn] === 0) {
         if (outOfBounds) {
             messageEl.textContent = `Out Of Bounds!! You lose the turn! ${pieceObject[turn]}'s turn. Roll the Dice!`
@@ -222,17 +226,13 @@ function updateMessage() {
         if (diceDisabled) {
             firstMove()
         }
-    } else if(winner === false && pieceHome === false) {
+    } else {
         if (diceDisabled){
             makeYourMove()
         } else {
             rollTheDice()
         }
-    } else if (winner === false && pieceHome) {
-        messageEl.textContent = `BOOYAKASHA!! ${pieceObject[turn]}'s Piece reached HOME!! Get ${4 - piecesWon[turn]} more Piece(s) Home to Win`
-    } else {
-        messageEl.textContent = `BOOYAKASHA!! ${pieceObject[turn]} is the LUDO MASTER!! Congratulations!!`
-    }
+    } 
 }
 
 // to render a message based on different dice roll condition when there are no activePieces
@@ -304,8 +304,9 @@ function handleDice() {
     */
     if ((count6 === 3) || (activePieces[turn] === 0 && diceValue !== 6)) {
         switchPlayerTurn()
+        setTimeout(() => render(), 2000)
     } 
-    setTimeout(() => render(), 2000)
+    
     if ((activePieces[turn] + piecesWon[turn]) < 4 && diceValue === 6) {
         setTimeout(() => selectAiPiece(), 3000)
     } else if (numOfPlayers === 1 && turn !== 'green' && (activePieces[turn] !== 0)) {
@@ -499,7 +500,6 @@ function switchPlayerTurn() {
     } else  {
         turn = turn === 'green' ? turn = 'blue' : turn = 'green'
     }
-    console.log(turn)
     playArea = pathWay[turn]
     count6 = 0
     diceDisabled = false
