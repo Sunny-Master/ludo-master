@@ -5,18 +5,23 @@
   body {
     font-family: system-ui, sans-serif;
     margin: 0;
-    background-color: darkgray;
+    background: url(../assets/gamebg.png);
+    background-size: cover;
     height: 100vh;
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
     align-items: center;
+    color: azure;
   }
 
   header {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: rgba(0,0,0,0.7);
+    width: 100%;
+    margin-bottom: 2%;
   }
 
   #gameArea {
@@ -120,35 +125,35 @@
   }
   
   #greenBig .smallSqr {
-      background-color: green;
+      background-color: #6F2DA8;
   }
   
   #redBig .smallSqr {
-      background-color: red;
+      background-color: #E60012;
   }
   
   #yellowBig .smallSqr {
-      background-color: rgba(250, 250, 36, 0.925);
+      background-color: #FFA812;
   }
   
   #blueBig .smallSqr {
-      background-color: blue;
+      background-color: #0082C8;
   }
   
   #greenPlayer {
-      border-color: green;
+      border-color: #6F2DA8;
   }
   
   #yellowPlayer {
-    border-color: rgba(250, 250, 36, 0.925);
+    border-color: #FFA812;
   }
   
   #redPlayer {
-    border-color: red;
+    border-color: #E60012;
   }
   
   #bluePlayer {
-    border-color: blue;
+    border-color: #0082C8;
   }
   
   #yellowGateway, #redGateway {
@@ -177,19 +182,19 @@
   }
   
   .ylw-path {
-    background-color: rgba(250, 250, 36, 0.925);
+    background-color: #FFA812;
   }
   
   .red-path {
-    background-color: red;
+    background-color: #E60012;
   }
   
   .grn-path {
-    background-color: green;
+    background-color: #6F2DA8;
   }
   
   .blu-path {
-    background-color: blue;
+    background-color: #0082C8;
   }
   
   #homes {
