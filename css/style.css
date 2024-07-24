@@ -5,7 +5,7 @@
   body {
     font-family: system-ui, sans-serif;
     margin: 0;
-    background: url(../assets/gamebg.png);
+    background: url(../assets/background.png);
     background-size: cover;
     height: 100vh;
     display: flex;
@@ -168,19 +168,22 @@
     width: 240px;
   }
   
-  .path, .ylw-path, .red-path, .grn-path, .blu-path{
+  .path, .ylw-path, .red-path, .grn-path, .blu-path {
     width: 40px;
     height: 40px;
     aspect-ratio: 1/1;
     border: 2px solid;
-    background-color: antiquewhite;
+    background: antiquewhite;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    font-size: 25px;
-    cursor: pointer;
+    background-size: cover;
+    overflow: visible;
+    z-index: 1;
+    /* position: relative; */
   }
-  
+
   .ylw-path {
     background-color: #FFA812;
   }
@@ -204,7 +207,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-image: url('../assets/home.jpg');
+    background-image: url('../assets/home.png');
     background-size: cover; 
   }
   
@@ -221,6 +224,18 @@
   .home {
     border: none;
     background-color: transparent; 
+  }
+
+  .piece {
+    width: 100%;
+    cursor: pointer;
+    z-index: 2;
+    /* position: relative; */
+  }
+
+  .piece:hover {
+    width: 150%;
+    z-index: 100;
   }
 
   .btn {
@@ -241,7 +256,7 @@
   }
   
   .multi {
-    font-size: 13px;
+    width: 50%;
   }
 
   .overlay {
@@ -281,14 +296,14 @@
   }
 
 #instructions {
-  z-index: 1; /*Specify a stack order*/
+  z-index: 3; /*Specify a stack order*/
   display: flex;
   justify-content: center;
   overflow-y: auto;
 }
 
 #titleScreen {
-  z-index: 2;
+  z-index: 4;
   gap: 50px;
 }
 

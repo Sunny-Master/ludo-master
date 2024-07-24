@@ -1,9 +1,16 @@
 /*-------------------------------- Constants --------------------------------*/
 const pieceObject = {
-    green: '🥑',
-    yellow: '🍍',
-    blue: '🍄',
-    red: '🍉',
+    green: '../assets/donatello.png',
+    yellow: '../assets/michaelangelo.png',
+    blue: '../assets/leonardo.png',
+    red: '../assets/raphael.png',
+}
+
+const playerNames = {
+    green: 'Donatello',
+    yellow: 'Michaelangelo',
+    blue: 'Leonardo',
+    red: 'Raphael',
 }
 
 const turnSequence = ['green', 'yellow', 'blue', 'red']
@@ -178,32 +185,54 @@ function updateDepots() {
 //to update the board with game state
 function updateBoard() {
     board.forEach((cell, idx) => {
-        let displayPieces = ''
+                       
+        pathEls[idx].innerHTML = ''
         if (cell.includes('green')) {
             for (let i = 0; i < cell.match(/green/g).length; i++) {
-                displayPieces += pieceObject['green']
+                const pieceElement = document.createElement('img')
+                pieceElement.classList.add('piece')
+                pieceElement.src = pieceObject['green']
+                pieceElement.alt = 'Donatello Face'
+                pathEls[idx].appendChild(pieceElement)
+                
             }
         }
         if (cell.includes('yellow')) {
             for (let i = 0; i < cell.match(/yellow/g).length; i++) {
-                displayPieces += pieceObject['yellow']
+                const pieceElement = document.createElement('img')
+                pieceElement.classList.add('piece')
+                pieceElement.src = pieceObject['yellow']
+                pathEls[idx].appendChild(pieceElement)
+
             }
         }
         if (cell.includes('blue')) {
             for (let i = 0; i < cell.match(/blue/g).length; i++) {
-                displayPieces += pieceObject['blue']
+                const pieceElement = document.createElement('img')
+                pieceElement.classList.add('piece')
+                pieceElement.src = pieceObject['blue']
+                pathEls[idx].appendChild(pieceElement)
             }
         }
         if (cell.includes('red')) {
             for (let i = 0; i < cell.match(/red/g).length; i++) {
-                displayPieces += pieceObject['red']
+                const pieceElement = document.createElement('img')
+                pieceElement.classList.add('piece')
+                pieceElement.src = pieceObject['red']
+                pathEls[idx].appendChild(pieceElement)
             }
         }
-        pathEls[idx].textContent = displayPieces
-        if(displayPieces.length > 2) {
-            pathEls[idx].classList.add ('multi')
+
+        const imageElements = pathEls[idx].querySelectorAll('.piece') 
+
+        if (imageElements.length > 1) {
+            imageElements.forEach( imageElement => {
+               imageElement.classList.add('multi')
+            })   
         } else {
-            pathEls[idx].classList.remove('multi')
+            imageElements.forEach( imageElement => {
+                imageElement.classList.remove('multi')
+             })   
         }
     })
 }
@@ -213,14 +242,14 @@ function updateMessage() {
     if (numOfPlayers === 0) {
         messageEl.textContent = 'Game On!!'
     } else if (winner) {
-        messageEl.textContent = `BOOYAKASHA!! ${pieceObject[turn]} is the LUDO MASTER!! Congratulations!!`
+        messageEl.textContent = `BOOYAKASHA!! ${playerNames[turn]} is the LUDO MASTER!! Congratulations!!`
     } else if (pieceHome) {
-        messageEl.textContent = `BOOYAKASHA!! ${pieceObject[turn]}'s Piece reached HOME!! Get ${4 - piecesWon[turn]} more Piece(s) Home to Win`
+        messageEl.textContent = `BOOYAKASHA!! ${playerNames[turn]}'s Piece reached HOME!! Get ${4 - piecesWon[turn]} more Piece(s) Home to Win`
     } else if (!winner && !pieceHome && activePieces[turn] === 0) {
         if (outOfBounds) {
-            messageEl.textContent = `Out Of Bounds!! You lose the turn! ${pieceObject[turn]}'s turn. Roll the Dice!`
+            messageEl.textContent = `Out Of Bounds!! You lose the turn! ${playerNames[turn]}'s turn. Roll the Dice!`
         } else {
-            messageEl.textContent = `${pieceObject[turn]}'s turn. Roll the Dice and get a SIX to make your First move!`
+            messageEl.textContent = `${playerNames[turn]}'s turn. Roll the Dice and get a SIX to make your First move!`
         }
         if (diceDisabled) {
             firstMove()
@@ -237,9 +266,9 @@ function updateMessage() {
 // to render a message based on different dice roll condition when there are no activePieces
 function firstMove() {
     if (diceValue !== 6) {
-        messageEl.textContent = `${pieceObject[turn]} didn't get a SIX. Better Luck in the next roll of Dice`
+        messageEl.textContent = `${playerNames[turn]} didn't get a SIX. Better Luck in the next roll of Dice`
    } else {
-        messageEl.textContent = `COWABUNGA!! ${pieceObject[turn]} got a SIX! Select a Piece from Depot to make a move!`
+        messageEl.textContent = `COWABUNGA!! ${playerNames[turn]} got a SIX! Select a Piece from Depot to make a move!`
    }
 }
 
@@ -248,11 +277,11 @@ function makeYourMove() {
     if (outOfBounds) {
         messageEl.textContent = `Out Of Bounds!! This is not going to be a walk in the park! Select a different Piece!`
     } else if (diceValue !== 6) {
-        messageEl.textContent = `${pieceObject[turn]} got a ${diceValue}! Select an Active Piece to make a move!`
+        messageEl.textContent = `${playerNames[turn]} got a ${diceValue}! Select an Active Piece to make a move!`
     } else if (count6 === 1) {
-        messageEl.textContent = `COWABUNGA!! ${pieceObject[turn]} got a SIX! Select any Piece to make a move!!`
+        messageEl.textContent = `COWABUNGA!! ${playerNames[turn]} got a SIX! Select any Piece to make a move!!`
     } else if(count6 === 2) { 
-        messageEl.textContent = `BOOYAH!! ${pieceObject[turn]} got a SIX Again! Select any Piece to make a move!!`
+        messageEl.textContent = `BOOYAH!! ${playerNames[turn]} got a SIX Again! Select any Piece to make a move!!`
     } else if (count6 === 3) {
         messageEl.textContent = `OOPS!! Rule of 3 SIXES: You lose the turn!!` 
     } 
@@ -261,15 +290,15 @@ function makeYourMove() {
 // to render a message when user needs to roll the dice 
 function rollTheDice() {
     if (outOfBounds) {
-        messageEl.textContent = `Out Of Bounds!! You lose the turn! ${pieceObject[turn]}'s turn. Roll the Dice!`
+        messageEl.textContent = `Out Of Bounds!! You lose the turn! ${playerNames[turn]}'s turn. Roll the Dice!`
     }  else if (knockOffBonus) {
-        messageEl.textContent = `KNOCK OFF bonus!! ${pieceObject[turn]}'s turn. Roll the Dice!`
+        messageEl.textContent = `KNOCK OFF bonus!! ${playerNames[turn]}'s turn. Roll the Dice!`
     } else if (count6 === 1) {
-        messageEl.textContent = `${pieceObject[turn]}'s turn. Rule of SIX: Bonus turn!! Roll the Dice!`
+        messageEl.textContent = `${playerNames[turn]}'s turn. Rule of SIX: Bonus turn!! Roll the Dice!`
     } else if (count6 === 2) {
-        messageEl.textContent = `${pieceObject[turn]}'s turn. Rule of 2 SIXES: Another Bonus turn!! Roll the Dice!`
+        messageEl.textContent = `${playerNames[turn]}'s turn. Rule of 2 SIXES: Another Bonus turn!! Roll the Dice!`
     } else {
-        messageEl.textContent = `${pieceObject[turn]}'s turn. Roll the Dice!`
+        messageEl.textContent = `${playerNames[turn]}'s turn. Roll the Dice!`
     }
 }
 
@@ -347,7 +376,7 @@ function handleDepot(event) {
     if (numOfPlayers === 1 && turn !== 'green') {
         pieceIndex = event.id
     } else {
-        pieceIndex = parseInt(event.target.id)
+        pieceIndex = parseInt(event.target.parentElement.id)
     }
     // if the selected depot square is empty, return
     if (board[pieceIndex] !== turn) {
@@ -360,6 +389,7 @@ function handleDepot(event) {
     selectedPiece = true
     activePieces[turn] += 1
     diceDisabled = false
+    console.log(board[startPos])
     render()
     if (diceValue === 6 && count6 !== 3) {
         setTimeout(() => checkAi(), 3000)
@@ -389,13 +419,16 @@ function handleClick(event) {
     if (numOfPlayers === 1 && turn !== 'green') {
         squareIndex = parseInt(event.id)
     } else {
-        squareIndex = parseInt(event.target.id)
+        squareIndex = parseInt(event.target.parentElement.id)
+    }
+    // to make sure the player is clicking on a piece and not empty space
+    if (typeof board[squareIndex] !== 'string') {
+        return
     }
     if (!board[squareIndex].includes(turn) || selectedPiece) {
         return
     }
-    const currentPos = playArea.indexOf(squareIndex)
-    const newPos = currentPos + diceValue
+    const newPos = playArea.indexOf(squareIndex) + diceValue
     const newSquareIndex = playArea[newPos]
     checkBounds(newSquareIndex)
     if (outOfBounds) {
@@ -431,7 +464,7 @@ function handleClick(event) {
 // to check if the new position is outOfBounds for the player
 function checkBounds(newSquareIndex) {
     outOfBounds = false //to switch-back outOfBounds to false after intial outOfBounds message
-    if(newSquareIndex === undefined || pathEls[newSquareIndex].textContent.length === 8) {
+    if(newSquareIndex === undefined || pathEls[newSquareIndex].children.length === 4) {
         outOfBounds = true
     } 
 }
