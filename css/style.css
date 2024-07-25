@@ -1,299 +1,316 @@
 * {
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: system-ui, sans-serif;
-    margin: 0;
-    background: url(../assets/background.png);
-    background-size: cover;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    align-items: center;
-    color: azure;
-  }
+  box-sizing: border-box;
+}
 
-  header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: rgba(0,0,0,0.7);
-    width: 100%;
-    margin-bottom: 2%;
-  }
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  background: url(../assets/images/background.png);
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  color: azure;
+}
 
-  #gameArea {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    gap: 30px;
-    align-items: center;
-  }
-  
-  h1 {
-    margin-bottom: 0;
-  }
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(14, 32, 1, 0.7);
+  width: 100%;
+  margin-bottom: 2%;
+}
 
-   .dice-container {
-    display: flex;
-    justify-content: space-between;
-    /* flex-direction: column; */
-    gap: 250px;
-  }
- .dice {
+#game-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: center;
+}
+
+h1 {
+  margin-bottom: 0;
+}
+
+#game-area2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 600px;
+  background: rgba(14, 32, 1, 0.7);
+  gap: 25px;
+  border-radius: 10px;
+}
+.dice-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 250px;
+}
+.dice {
   background-color: transparent;
   border: none;
   width: 70px;
   height: 70px;
   font-size: 60px;
- }
+}
 
- .d1 {
-  background-image: url("../assets/dice1.png");
+.d1 {
+  background-image: url("../assets/images/dice/dice1.png");
   background-size: cover;
- }
- .d2 {
-  background-image: url("../assets/dice2.png");
+}
+.d2 {
+  background-image: url("../assets/images/dice/dice2.png");
   background-size: cover;
- }
- .d3 {
-  background-image: url("../assets/dice3.png");
+}
+.d3 {
+  background-image: url("../assets/images/dice/dice3.png");
   background-size: cover;
- }
- .d4 {
-  background-image: url("../assets/dice4.png");
+}
+.d4 {
+  background-image: url("../assets/images/dice/dice4.png");
   background-size: cover;
- }
- .d5 {
-  background-image: url("../assets/dice5.png");
+}
+.d5 {
+  background-image: url("../assets/images/dice/dice5.png");
   background-size: cover;
- }
- .d6 {
-  background-image: url("../assets/dice6.png");
+}
+.d6 {
+  background-image: url("../assets/images/dice/dice6.png");
   background-size: cover;
- }
+}
 
+#board {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  width: 600px;
+  aspect-ratio: 1/1;
+}
 
-  #board {
-    display: flex;
-    flex-direction: column;
-    border: none;
-    width: 600px;
-    aspect-ratio: 1/1;
-  }
-  
-  .flr {
-    height: auto;
-    width: 100%;
-    display: flex;
-  }
-  
-  .depot {
-    width: 40%;
-    height: 40%;
-    border: 50px solid;
-    outline: 2px solid;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  
-  .bigSqr {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border: 2px solid;
-    flex-wrap: wrap;
-    width: 140px;
-    height: 140px;
-    padding: 20px;
-    gap: 10px;
-    background-color: antiquewhite;
-  }
-  
-  .smallSqr {
-    border: 2px solid;
-    height: 30px;
-    width: 30px;
-    aspect-ratio: 1/1;
-    border-radius: 10px;
-  }
-  
-  #greenBig .smallSqr {
-      background-color: #6F2DA8;
-  }
-  
-  #redBig .smallSqr {
-      background-color: #E60012;
-  }
-  
-  #yellowBig .smallSqr {
-      background-color: #FFA812;
-  }
-  
-  #blueBig .smallSqr {
-      background-color: #0082C8;
-  }
-  
-  #greenPlayer {
-      border-color: #6F2DA8;
-  }
-  
-  #yellowPlayer {
-    border-color: #FFA812;
-  }
-  
-  #redPlayer {
-    border-color: #E60012;
-  }
-  
-  #bluePlayer {
-    border-color: #0082C8;
-  }
-  
-  #yellowGateway, #redGateway {
-    display: flex;
-    flex-wrap: wrap;
-    width: 120px;
-  }
-  
-  #greenGateway, #blueGateway {
-    display: flex;
-    flex-wrap: wrap;
-    width: 240px;
-  }
-  
-  .path, .ylw-path, .red-path, .grn-path, .blu-path {
-    width: 40px;
-    height: 40px;
-    aspect-ratio: 1/1;
-    border: 2px solid;
-    background: antiquewhite;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    background-size: cover;
-    overflow: visible;
-    z-index: 1;
-    /* position: relative; */
-  }
+.flr {
+  height: auto;
+  width: 100%;
+  display: flex;
+}
 
-  .ylw-path {
-    background-color: #FFA812;
-  }
-  
-  .red-path {
-    background-color: #E60012;
-  }
-  
-  .grn-path {
-    background-color: #6F2DA8;
-  }
-  
-  .blu-path {
-    background-color: #0082C8;
-  }
-  
-  #homes {
-    width: 120px;
-    height: 120px;
-    border: 2px solid;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-image: url('../assets/home.png');
-    background-size: cover; 
-  }
-  
-  #home1, #home3 {
-    display: flex;
-    justify-content: center;
-  }
+.depot {
+  width: 40%;
+  height: 40%;
+  border: 50px solid;
+  outline: 2px solid;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: center;
+}
 
-  #home2 {
-    display: flex;
-    justify-content: space-between;
-  }
+.big-sqr {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 2px solid;
+  flex-wrap: wrap;
+  width: 140px;
+  height: 140px;
+  padding: 20px;
+  gap: 10px;
+  background-color: antiquewhite;
+}
 
-  .home {
-    border: none;
-    background-color: transparent; 
-  }
+.small-sqr {
+  border: 2px solid;
+  height: 30px;
+  width: 30px;
+  aspect-ratio: 1/1;
+  border-radius: 10px;
+}
 
-  .piece {
-    width: 100%;
-    cursor: pointer;
-    z-index: 2;
-    /* position: relative; */
-  }
+#green-big .small-sqr {
+  background-color: #6f2da8;
+}
 
-  .piece:hover {
-    width: 150%;
-    z-index: 100;
-  }
+#red-big .small-sqr {
+  background-color: #e60012;
+}
 
-  .btn {
-    font-size: 20px;
-    margin: 20px;
-    font-weight: bold;
-    width: 200px;
-    height: 35px;
-    border-radius: 8px;
-    border: none;
-    background-color: rgba(188, 230, 75, 0.911);
-    cursor: pointer; /* Add a pointer on hover */
-  }
+#yellow-big .small-sqr {
+  background-color: #ffa812;
+}
 
-  .btn:hover {
-    background-color: rgba(59, 177, 104, 0.911);
-    color: white;
-  }
-  
-  .multi {
-    width: 50%;
-  }
+#blue-big .small-sqr {
+  background-color: #0082c8;
+}
 
-  .overlay {
-    position: fixed; /*Sit on top of the page content*/
-    display: none; /* Hidden by default */
-    width: 100%; /* Full width (cover the whole page) */
-    height: 100%; /* Full height (cover the whole page) */
-    /* top: 0; /* sets vertical position of the overlay from top */
-    /*left: 0; sets the horizontal position of the overlay from left */
-    background: rgba(0,0,0,0.7); /* Black background with opacity */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    backdrop-filter: blur(10px); /* Blurs the background*/
-  }
+#green-player {
+  border-color: #6f2da8;
+}
 
-  #mode {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    height: 50%;
-    gap: 40px;
-  }
-  #titleOnOverlay {
-    color: white;
-    font-size: 50px;
-  }
+#yellow-player {
+  border-color: #ffa812;
+}
 
-  select {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer; /* Add a pointer on hover */
-    display: block;
-  }
+#red-player {
+  border-color: #e60012;
+}
+
+#blue-player {
+  border-color: #0082c8;
+}
+
+#yellow-gateway,
+#red-gateway {
+  display: flex;
+  flex-wrap: wrap;
+  width: 120px;
+}
+
+#green-gateway,
+#blue-gateway {
+  display: flex;
+  flex-wrap: wrap;
+  width: 240px;
+}
+
+.path,
+.ylw-path,
+.red-path,
+.grn-path,
+.blu-path {
+  width: 40px;
+  height: 40px;
+  aspect-ratio: 1/1;
+  border: 2px solid;
+  background: antiquewhite;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  overflow: visible;
+  z-index: 1;
+  /* position: relative; */
+}
+
+.ylw-path {
+  background-color: #ffa812;
+}
+
+.red-path {
+  background-color: #e60012;
+}
+
+.grn-path {
+  background-color: #6f2da8;
+}
+
+.blu-path {
+  background-color: #0082c8;
+}
+
+#homes {
+  width: 120px;
+  height: 120px;
+  border: 2px solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-image: url("../assets/images/home.png");
+  background-size: cover;
+}
+
+#home1,
+#home3 {
+  display: flex;
+  justify-content: center;
+}
+
+#home2 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.home {
+  border: none;
+  background-color: transparent;
+}
+
+.piece {
+  width: 100%;
+  cursor: pointer;
+  z-index: 2;
+  /* position: relative; */
+}
+
+.piece:hover {
+  width: 150%;
+  z-index: 100;
+}
+
+.btn {
+  font-size: 20px;
+  margin: 20px;
+  font-weight: bold;
+  width: 200px;
+  height: 35px;
+  border-radius: 8px;
+  border: none;
+  background-color: rgba(188, 230, 75, 0.911);
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+.btn:hover {
+  background-color: rgba(59, 177, 104, 0.911);
+  color: white;
+}
+
+.multi {
+  width: 50%;
+}
+
+.overlay {
+  position: fixed; /*Sit on top of the page content*/
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  /* top: 0; /* sets vertical position of the overlay from top */
+  /*left: 0; sets the horizontal position of the overlay from left */
+  background: rgba(0, 0, 0, 0.7); /* Black background with opacity */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  backdrop-filter: blur(10px); /* Blurs the background*/
+}
+
+#mode {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 50%;
+  gap: 40px;
+}
+#title-on-overlay {
+  color: white;
+  font-size: 50px;
+}
+
+select {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer; /* Add a pointer on hover */
+  display: block;
+  height: 35px;
+  border-radius: 10px;
+  background-color: rgba(188, 230, 75, 0.911);
+}
 
 #instructions {
   z-index: 3; /*Specify a stack order*/
@@ -302,12 +319,12 @@
   overflow-y: auto;
 }
 
-#titleScreen {
+#title-screen {
   z-index: 4;
   gap: 50px;
 }
 
-.textOnOverlay {
+.text-on-overlay {
   color: white;
   text-decoration: underline;
 }
@@ -317,10 +334,9 @@ h3 {
   text-align: left;
 }
 
-.instrList {
-  color: white;  
+.instr-list {
+  color: white;
   font-size: 12px;
   text-wrap: wrap;
   max-width: 600px;
 }
-

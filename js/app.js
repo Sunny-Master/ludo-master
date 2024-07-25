@@ -1,9 +1,9 @@
 /*-------------------------------- Constants --------------------------------*/
 const pieceObject = {
-    green: '../assets/donatello.png',
-    yellow: '../assets/michaelangelo.png',
-    blue: '../assets/leonardo.png',
-    red: '../assets/raphael.png',
+    green: '../assets/images/pieces/donatello.png',
+    yellow: '../assets/images/pieces/michaelangelo.png',
+    blue: '../assets/images/pieces/leonardo.png',
+    red: '../assets/images/pieces/raphael.png',
 }
 
 const playerNames = {
@@ -61,7 +61,7 @@ const piecePosition = {}
 
 /*------------------------ Cached Element References ------------------------*/
 
-const selectPlayersEl = document.getElementById('selectPlayers')
+const selectPlayersEl = document.getElementById('select-players')
 
 const pathSquareEls = document.querySelectorAll('.path')
 // referenced from: https://www.geeksforgeeks.org/fastest-way-to-convert-javascript-nodelist-to-array/
@@ -70,25 +70,25 @@ let pathEls = Array.from(pathSquareEls)
 pathEls = pathEls.sort((a,b) => parseInt(a.id) - parseInt(b.id)) 
 
 const boardEl = document.querySelector('.board')
-const yellowSectionEl = document.querySelector('#yellowGateway')
-const blueSectionEl = document.querySelector('#blueGateway')
-const redSectionEl = document.querySelector('#redGateway')
-const greenSectionEl = document.querySelector('#greenGateway')
+const yellowSectionEl = document.querySelector('#yellow-gateway')
+const blueSectionEl = document.querySelector('#blue-gateway')
+const redSectionEl = document.querySelector('#red-gateway')
+const greenSectionEl = document.querySelector('#green-gateway')
 
 const messageEl = document.getElementById('message')
 
-const redDepotEl = document.querySelector('#redBig')
-const greenDepotEl = document.querySelector('#greenBig')
-const yellowDepotEl = document.querySelector('#yellowBig')
-const blueDepotEl = document.querySelector('#blueBig')
+const redDepotEl = document.querySelector('#red-big')
+const greenDepotEl = document.querySelector('#green-big')
+const yellowDepotEl = document.querySelector('#yellow-big')
+const blueDepotEl = document.querySelector('#blue-big')
 
 const diceEl = document.getElementById('dice-button')
 const diceRollValueEl = document.getElementById('dice-value')
 
 const resetBtnEl = document.getElementById('reset')
-const titleScreenEl = document.getElementById('titleScreen')
+const titleScreenEl = document.getElementById('title-screen')
 const startBtnEl = document.getElementById('start')
-const howBtnEl = document.getElementById('instrBtn')
+const howBtnEl = document.getElementById('instr-btn')
 const backBtnEl = document.getElementById('back')
 const instrScreenEl = document.getElementById('instructions')
 
