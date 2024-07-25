@@ -50,7 +50,7 @@ const piecePopSound = new Audio('../assets/sounds/pop.wav')
 const buttonSound = new Audio('../assets/sounds/button.wav')
 const twoSixesSound = new Audio('../assets/sounds/booyah.mp3')
 const rolledSixSound = new Audio('../assets/sounds/cowabunga.mp3')
-const threeSixesSound = new Audio('../assests/sounds/ouch.mp3')
+const threeSixesSound = new Audio('../assets/sounds/ouch.mp3')
 const knockOffSound = new Audio('../assets/sounds/hurt.mp3')
 const oobSound = new Audio('../assets/sounds/oob.mp3')
 const pieceHomeSound = new Audio('../assets/sounds/turtle-power.mp3')
@@ -102,7 +102,11 @@ const titleScreenEl = document.getElementById('title-screen')
 const startBtnEl = document.getElementById('start')
 const howBtnEl = document.getElementById('instr-btn')
 const backBtnEl = document.getElementById('back')
+const tldrScreenEl = document.getElementById('how-to-play')
+const linkToInstrEl = document.getElementById('link-instr')
+const backToStartBtnEl = document.getElementById('back-to-start')
 const instrScreenEl = document.getElementById('instructions')
+
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -141,11 +145,12 @@ function init() {
     selectedPiece = false
     diceDisabled = true
     knockOffBonus = false
-    titleScreenEl.style.display = '' 
+    titleScreenEl.style.display = ''
+    tldrScreenEl.style.display = 'none' 
     instrScreenEl.style.display = 'none'
     startBtnEl.setAttribute('disabled', true)  
-    rolledSixSound.volume = 0.5
-    twoSixesSound.volume = 0.5 
+    rolledSixSound.volume = 0.4
+    twoSixesSound.volume = 0.4 
     render()
 }
 
@@ -596,14 +601,22 @@ function startGame() {
 // to show the how to play instructions screen 
 function howToPlay() {
     buttonSound.play()
-    instrScreenEl.style.display = ''
+    tldrScreenEl.style.display = ''
     titleScreenEl.style.display = 'none'
+}
+
+//to go to the detailed rules page
+function detailedInstr() {
+    buttonSound.play()
+    instrScreenEl.style.display = ''
+    tldrScreenEl.style.display = 'none'
 }
 
 // to return back to same screen where the how to play button was clicked from
 function returnBack() {
     buttonSound.play()
     instrScreenEl.style.display = 'none'
+    tldrScreenEl.style.display = 'none'
     titleScreenEl.style.display = ''
 }
 
@@ -627,6 +640,9 @@ resetBtnEl.addEventListener('click', init)
 startBtnEl.addEventListener('click', startGame)
 howBtnEl.addEventListener('click', howToPlay)
 backBtnEl.addEventListener('click', returnBack)
+
+linkToInstrEl.addEventListener('click', detailedInstr)
+backToStartBtnEl.addEventListener('click', returnBack)
 
 
 

@@ -360,10 +360,16 @@ select:hover {
 }
 
 #instructions {
-  z-index: 3; /*Specify a stack order*/
+  z-index: 2; /*Specify a stack order*/
   display: flex;
   justify-content: center;
   overflow-y: auto;
+}
+
+#how-to-play {
+  z-index: 3;
+  display: flex;
+  justify-content: center;
 }
 
 #title-screen {
@@ -386,4 +392,12 @@ h3 {
   font-size: 12px;
   text-wrap: wrap;
   max-width: 600px;
+}
+
+#tldr {
+  font-size: 15px;
+}
+
+#link-instr {
+  color: #66FF66;
 }

@@ -176,56 +176,79 @@
         <img class="icon" src="./assets/images/pieces/raphael.png" alt="raphael cartoon face">
       </div>
       <section id="mode">
-      <button id="instr-btn" class="btn">how to play</button>
+      <button id="instr-btn" class="btn">How to play</button>
       <select id="select-players">
-        <option class="option" value="0" selected disabled>
-          Select Players
-        </option>
-        <option class="option" value="1">
-          Play Solo (Play as Donatello)
-        </option>
+        <option class="option" value="0" selected disabled>Select Players</option>
+        <option class="option" value="1">Play Solo (Play as Donatello)</option>
         <option class="option" value="2">2 Players (Donatello vs Leonardo)</option>
         <option class="option" value="4">4 Players (Ninja Turtles)</option>
       </select>
       <button id="start" disabled class="btn">Start</button>
     </div>
-    <div id="instructions" class="overlay">
-      <h2 id="instr-title" class="text-on-overlay">how to play</h2>
-      <div id="step-by-step">
-      <h3>Game Setup</h3>
-      <ol class="instr-list">
-        <li class="instr-steps">A Ludo board is split into 4 arms. Each arm has 3 columns of squares where the outer columns are part of the main pathway and the center,('home pathway',) is the same color as one of the player’s depot</li>
-        <li class="instr-steps">You have 4 pieces each to play with inside your depot</li>
-      </ol>
-      <h3>First Moves</h3>
-      <ol class="instr-list">
-        <li class="instr-steps">Roll a 6 on the die to move a piece out of your depot to 'starting square' to make it an "active piece"</li>
-        <li class="instr-steps">If you roll a 1-5, your turn ends without moving a piece</li>
-        <li class="instr-steps">Any time you roll a 6, you earn a bonus roll. </li>
-        <li class="instr-steps">After any time you roll a 6, on your bonus roll, if you roll another 6, you get another bonus roll.</li>
-        <li class="instr-steps">If you roll three 6s in a row, then you lose your roll and your turn ends</li>
-        <li class="instr-steps">Once you move a piece after rolling any number besides a 6, your turn ends</li>
-        <li class="instr-steps">When you roll a 1–5, move the piece on the starting square that number of squares clockwise around the board’s main pathway</li>
-      </ol> 
-      <h3>Gameplay</h3>
-      <ol class="instr-list">
-        <li class="instr-steps">Roll the die to move a piece during each of your turns</li>
-        <li class="instr-steps">Any time you roll a 6, you have the option to move a piece out of your depot onto the main pathway or move a different piece around the board</li>
-        <li class="instr-steps">Land in a square with an opponent's single piece for a 'Knock Off Bonus' and to send it back to their depot. You will get a bonus turn and they will need to roll 6 to make that same piece active again</li>
-        <li class="instr-steps">If you are landing in a square where there are 2 or more pieces then, your piece can move and cohabit that square</li>
-        <li class="instr-steps">If a square has a total of 4 pieces, then it is 'blocked' and can't accomodate any more pieces</li>
-        <li class="instr-steps">If your move is landing you on a blocked square, you can't make that move and if you don't have any other active piece then you lose your turn</li>
-      </ol>
-      <h3>Win Conditions</h3>
-      <ol class="instr-list">
-        <li class="instr-steps">Move your pieces into your home pathway once you go around the board</li>
-        <li class="instr-steps">Only pieces that match the color of the home pathway are allowed to move into them</li>
-        <li class="instr-steps">Once you move a piece into the home pathway, it can’t be 'Knocked Off' by any other players</li>
-        <li class="instr-steps">Roll the exact number you need to get pieces into the home square. If you roll a lower number, you’re still able to move that many squares forward, but if you roll higher, you must choose a different piece to move</li>
-        <li class="instr-steps">Win the game by moving all 4 of your pieces to the 'Home Square' before your opponents</li>
-      </ol>
+    <div id="how-to-play" class="overlay">
+      <h2 class="text-on-overlay">How to Play!!</h2>
+      <div class="step-by-step">
+        <ol id ="tldr" class="instr-list">
+          <li class="instr-steps">Read the detailed rules of the game <a id="link-instr" href="#instructions">here</a> (if you really need to...)</li>
+          <li class="instr-steps">Select game mode: 
+            <ul>
+              <li>Play Solo with computer as the 2nd player</li>
+              <li>2 Players taking their turns alternately</li>
+              <li>4 Players taking their turns sequentially</li>
+            </ul>
+          </li>
+          <li class="instr-steps">Click on the Start Button to start the game</li>
+          <li class="instr-steps">Players take turns clicking on the die to roll a number (1-6)</li>
+          <li class="instr-steps">Follow the instructions as per the message displayed on top of the board after every roll</li>
+          <li class="instr-steps">Player 1 ( Donatello) gets the first roll</li>
+          <li class="instr-steps">To move a piece out of the starting area, a player must roll a SIX</li>
+          <li class="instr-steps">Once their pieces are on the starting square, players move their pieces according to the number rolled on the die</li>
+          <li class="instr-steps">If a player rolls a six, they get an extra turn (rolling SIX 3 times in a row will cause you to lose that turn)</li>
+          <li class="instr-steps">If you are playing solo, computer (Leonardo) will automatically take its turn</li>
+          <li class="instr-steps">Land in a square with a single piece of another player to send the landed piece back to depot (and get a bonus turn)</li>
+          <li class="instr-steps">Pieces travel around the board and enter their home pathway and reach home</li>
+          <li class="instr-steps">First player to move all 4 pieces home, becomes the Ludo Master</li>
+        </ol>
+      </div>
+      <button id="back" class="btn">Back</button>
     </div>
-      <button id="back" class="btn">back</button>
+    <div id="instructions" class="overlay">
+      <h2 id="instr-title" class="text-on-overlay">Detailed Rules/Instructions</h2>
+      <div id="step-by-step">
+        <h3>Game Setup</h3>
+        <ol class="instr-list">
+          <li class="instr-steps">A Ludo board is split into 4 arms. Each arm has 3 columns of squares where the outer columns are part of the main pathway and the center,('home pathway',) is the same color as one of the player’s depot</li>
+          <li class="instr-steps">You have 4 pieces each to play with inside your depot</li>
+        </ol>
+        <h3>First Moves</h3>
+        <ol class="instr-list">
+          <li class="instr-steps">Roll a 6 on the die to move a piece out of your depot to 'starting square' to make it an "active piece"</li>
+          <li class="instr-steps">If you roll a 1-5, your turn ends without moving a piece</li>
+          <li class="instr-steps">Any time you roll a 6, you earn a bonus roll. </li>
+          <li class="instr-steps">After any time you roll a 6, on your bonus roll, if you roll another 6, you get another bonus roll.</li>
+          <li class="instr-steps">If you roll three 6s in a row, then you lose your roll and your turn ends</li>
+          <li class="instr-steps">Once you move a piece after rolling any number besides a 6, your turn ends</li>
+          <li class="instr-steps">When you roll a 1–5, move the piece on the starting square that number of squares clockwise around the board’s main pathway</li>
+        </ol> 
+        <h3>Gameplay</h3>
+        <ol class="instr-list">
+          <li class="instr-steps">Roll the die to move a piece during each of your turns</li>
+          <li class="instr-steps">Any time you roll a 6, you have the option to move a piece out of your depot onto the main pathway or move a different piece around the board</li>
+          <li class="instr-steps">Land in a square with an opponent's single piece for a 'Knock Off Bonus' and to send it back to their depot. You will get a bonus turn and they will need to roll 6 to make that same piece active again</li>
+          <li class="instr-steps">If you are landing in a square where there are 2 or more pieces then, your piece can move and cohabit that square</li>
+          <li class="instr-steps">If a square has a total of 4 pieces, then it is 'blocked' and can't accomodate any more pieces</li>
+          <li class="instr-steps">If your move is landing you on a blocked square, you can't make that move and if you don't have any other active piece then you lose your turn</li>
+        </ol>
+        <h3>Win Conditions</h3>
+        <ol class="instr-list">
+          <li class="instr-steps">Move your pieces into your home pathway once you go around the board</li>
+          <li class="instr-steps">Only pieces that match the color of the home pathway are allowed to move into them</li>
+          <li class="instr-steps">Once you move a piece into the home pathway, it can’t be 'Knocked Off' by any other players</li>
+          <li class="instr-steps">Roll the exact number you need to get pieces into the home square. If you roll a lower number, you’re still able to move that many squares forward, but if you roll higher, you must choose a different piece to move</li>
+          <li class="instr-steps">Win the game by moving all 4 of your pieces to the 'Home Square' before your opponents</li>
+        </ol>
+      </div>
+      <button id="back-to-start" class="btn">back</button>
     </div>
   </body>
 </html>

@@ -10,11 +10,30 @@ In Ludo, each player starts with four pieces in their home area. The objective i
 ## Motivation
 As a fan of Ludo and TMNT(Teenage Mutant Ninja Turtles) since childhood, I created this web-based version to bring the two distinct flavors together to a digital screen to share it with a wider audience. I hope you enjoy playing it as much as I did growing up!!
 
+## How to play
+1. Read the detailed rules of the game (if you really need to...) in the game
+2. Select game mode: 
+    - Play Solo with computer as the 2nd player
+    - 2 Players taking their turns alternately
+    - 4 Players taking their turns sequentially
+3. Click on the Start Button to start the game
+4. Players take turns clicking on the die to roll a number (1-6)
+5. Follow the instructions as per the message displayed on top of the board after every roll
+6. Player 1 ( Donatello) gets the first roll
+7. To move a piece out of the starting area, a player must roll a SIX 
+8. Once their pieces are on the starting square, players move their pieces according to the number rolled on the die
+9 . If a player rolls a six, they get an extra turn (rolling SIX 3 times in a row will cause you to lose that turn)
+10 . If you are playing solo, computer (Leonardo) will automatically take its turn
+11. Land in a square with a single piece of another player to send the landed piece back to depot (and get a bonus turn)
+12. Pieces travel around the board and enter their home pathway and reach home
+13. First player to move all 4 pieces home, becomes the Ludo Master
+
+
 ## Getting Started
 Open the link below in your web page, choose the number of players, and begin your adventure around the board. May the best strategist win!
 
 To start playing, simply click on the link below:
-# [Play Here](https://sunny-master.github.io/ludo-master/)
+# [Play Here](https://ludo-master.netlify.app/)
 
 ## Technologies used
 
