@@ -507,10 +507,12 @@ function checkForWinner(newSquareIndex) {
         return
     }
     pieceHome = true
+    confetti.start(500)
     piecesWon[turn] += 1
     activePieces[turn] -= 1
     if (piecesWon[turn] === 4) {
         winner = true
+        confetti.start(4000)
     }
 }
 
