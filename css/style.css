@@ -36,9 +36,9 @@ header {
 #game-area {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 5px;
   align-items: center;
 }
 
@@ -49,11 +49,23 @@ header {
   background-color: rgba(14, 32, 1, 0.5);
   }
 
+.player-names {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 600px;
+  margin: 0;
+}
+
+.player-name {
+  margin: 0;
+}
+
 .dice-container {
   display: flex;
   justify-content: space-between;
   gap: 250px;
-  margin: 30px;
+  margin: 10px;
 }
 .dice {
   background-color: transparent;
