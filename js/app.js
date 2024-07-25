@@ -46,6 +46,7 @@ const pathWay = {
 
 const diceSound = new Audio('../assets/sounds/dice.wav')
 const clickSound = new Audio('../assets/sounds/click.wav')
+const piecePopSound = new Audio('../assets/sounds/pop.wav')
 const buttonSound = new Audio('../assets/sounds/button.wav')
 
 
@@ -309,7 +310,6 @@ function rollTheDice() {
     }
 }
 
-
 // to display the value of rolled dice
 function showDiceValue() {
     if (diceValue) {
@@ -326,7 +326,6 @@ function handleDice() {
         diceRollValueEl.className = 'dice'
     }
     selectedPiece = false
-    
     handleDiceRoll()
     diceDisabled = true
     knockOffBonus = false // to reset knockOffBonus from previous turn
@@ -381,6 +380,7 @@ function selectAiPiece() {
 function handleDepot(event) {
     //if dice value is not 6 or if they have already selected their piece, return
     if (diceValue !== 6 || selectedPiece) {
+        clickSound.play()
         return
     }
     let pieceIndex
@@ -391,8 +391,10 @@ function handleDepot(event) {
     }
     // if the selected depot square is empty, return
     if (board[pieceIndex] !== turn) {
+        clickSound.play()
         return
-    }    
+    }
+    piecePopSound.play()    
     board[pieceIndex] = ''
     vacantDepot[turn].push(pieceIndex)
     const startPos = playArea[0]
@@ -436,6 +438,7 @@ function handleClick(event) {
         return
     }
     if (!board[squareIndex].includes(turn) || selectedPiece) {
+        clickSound.play()
         return
     }
     const newPos = playArea.indexOf(squareIndex) + diceValue
@@ -443,12 +446,14 @@ function handleClick(event) {
     checkBounds(newSquareIndex)
     if (outOfBounds) {
         if(activePieces[turn] === 1) {
+            clickSound.play()
             switchPlayerTurn()
         } 
         render()
         setInterval(() => selectActiveAiPiece(), 3000)
         return
     }
+    piecePopSound.play()
     checkOccupier(newSquareIndex)
     board[squareIndex] = board[squareIndex].replace(turn,'')
     movePiece(newSquareIndex)
