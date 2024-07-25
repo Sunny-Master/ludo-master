@@ -3,7 +3,7 @@
 }
 
 body {
-  font-family: system-ui, sans-serif;
+  font-family: comic sans ms, system-ui, sans-serif;
   margin: 0;
   background: url(../assets/images/background.png);
   background-size: cover;
@@ -21,13 +21,20 @@ header {
   align-items: center;
   background-color: rgba(14, 32, 1, 0.7);
   width: 100%;
-  margin-bottom: 2%;
 }
 
 #title-on-board {
-  max-height: 200px;
+  max-height: 150px;
 }
 
+.game-container {
+  background-color: rgba(14, 32, 1, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
 #game-area {
   display: flex;
   flex-direction: column;
@@ -37,23 +44,16 @@ header {
   align-items: center;
 }
 
-h1 {
-  margin-bottom: 0;
-}
+#message {
+  font-size: 25px;
+  margin-top: 35px;
+  }
 
-#game-area2 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 600px;
-  background: rgba(14, 32, 1, 0.7);
-  gap: 25px;
-  border-radius: 10px;
-}
 .dice-container {
   display: flex;
   justify-content: space-between;
   gap: 250px;
+  margin: 30px;
 }
 .dice {
   background-color: transparent;
@@ -196,8 +196,8 @@ h1 {
   justify-content: center;
   align-items: center;
   background-size: cover;
-  overflow: visible;
-  z-index: 1;
+  /* overflow: visible;
+  z-index: 1; */
   /* position: relative; */
 }
 
@@ -247,17 +247,18 @@ h1 {
 .piece {
   width: 100%;
   cursor: pointer;
-  z-index: 2;
+  /* z-index: 2; */
   /* position: relative; */
 }
 
 .piece:hover {
   width: 150%;
-  z-index: 100;
+  /* z-index: 100; */
 }
 
 .btn {
   font-size: 20px;
+  font-family: comic sans ms, system-ui, sans-serif;
   margin: 20px;
   font-weight: bold;
   width: 200px;
@@ -284,7 +285,7 @@ h1 {
   height: 100%; /* Full height (cover the whole page) */
   /* top: 0; /* sets vertical position of the overlay from top */
   /*left: 0; sets the horizontal position of the overlay from left */
-  background: rgba(0, 0, 0, 0.7); /* Black background with opacity */
+  background: rgba(14, 32, 1, 0.7); /* Black background with opacity */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -321,6 +322,7 @@ h1 {
 
 select {
   font-size: 20px;
+  font-family: comic sans ms, system-ui, sans-serif;
   font-weight: bold;
   text-align: center;
   cursor: pointer; /* Add a pointer on hover */
