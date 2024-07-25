@@ -1,4 +1,5 @@
 /*-------------------------------- Constants --------------------------------*/
+// links to the images acting as pieces for each player
 const pieceObject = {
     green: '../assets/images/pieces/donatello.png',
     yellow: '../assets/images/pieces/michaelangelo.png',
@@ -6,6 +7,7 @@ const pieceObject = {
     red: '../assets/images/pieces/raphael.png',
 }
 
+// player names to display on the game state messages
 const playerNames = {
     green: 'Donatello',
     yellow: 'Michaelangelo',
@@ -13,8 +15,10 @@ const playerNames = {
     red: 'Raphael',
 }
 
+// predefined turn sequence to go clockwise on the board
 const turnSequence = ['green', 'yellow', 'blue', 'red']
 
+// index of the home square (also the last square) on their respective pathway for each player
 const homeSquare = {
     green: 72,
     yellow: 73,
@@ -22,6 +26,7 @@ const homeSquare = {
     red: 75,
 }
 
+// index of the starting square on the path way for each player
 const squareOne = {
     green: 47,
     yellow: 8,
@@ -29,6 +34,7 @@ const squareOne = {
     red: 34
 }
 
+// defining the pathway that needs to be followed by each player based on their piece color
 const pathWay = {
     green: [47, 48, 49, 50, 51, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
          16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 
@@ -44,6 +50,7 @@ const pathWay = {
          23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 62, 63, 64, 65, 66, 75],
 }
 
+// referencing the audio files for game sounds
 const diceSound = new Audio('../assets/sounds/dice.wav')
 const clickSound = new Audio('../assets/sounds/click.wav')
 const piecePopSound = new Audio('../assets/sounds/pop.wav')
@@ -58,57 +65,59 @@ const winSound = new Audio('../assets/sounds/whose-the-turtle.mp3')
 
 
 /*---------------------------- Variables (state) ----------------------------*/
-let numOfPlayers, numOfPieces, turn, selectedPiece, winner, outOfBounds, pieceHome, playArea
-let diceFaceWipe, diceValue, diceDisabled, count6, knockOffBonus
-let board 
-
-let playerDepots
+let numOfPlayers, turn, selectedPiece, winner, outOfBounds, pieceHome, playArea
+let diceValue, diceDisabled, count6, knockOffBonus
+let board, playerDepots
 
 const activePieces = {}
-
 const piecesWon = {}
-
 const vacantDepot = {}
 const piecePosition = {}
 
 /*------------------------ Cached Element References ------------------------*/
-
+// element for the selecting the number of players through select button
 const selectPlayersEl = document.getElementById('select-players')
 
+// elements representing all the squares on the pathway, home squares and depot squares
 const pathSquareEls = document.querySelectorAll('.path')
 // referenced from: https://www.geeksforgeeks.org/fastest-way-to-convert-javascript-nodelist-to-array/
 let pathEls = Array.from(pathSquareEls)
 //considering that nodes are objects in an array
 pathEls = pathEls.sort((a,b) => parseInt(a.id) - parseInt(b.id)) 
 
-const boardEl = document.querySelector('.board')
-const yellowSectionEl = document.querySelector('#yellow-gateway')
-const blueSectionEl = document.querySelector('#blue-gateway')
-const redSectionEl = document.querySelector('#red-gateway')
-const greenSectionEl = document.querySelector('#green-gateway')
-
+// main message element showing the game state to players
 const messageEl = document.getElementById('message')
 
+// elements representing each of the players' depots
 const redDepotEl = document.querySelector('#red-big')
 const greenDepotEl = document.querySelector('#green-big')
 const yellowDepotEl = document.querySelector('#yellow-big')
 const blueDepotEl = document.querySelector('#blue-big')
 
+// dice button and dice roll value elements
 const diceEl = document.getElementById('dice-button')
 const diceRollValueEl = document.getElementById('dice-value')
 
+// reset button element
 const resetBtnEl = document.getElementById('reset')
+
+// elements of the title screen on overlay
 const titleScreenEl = document.getElementById('title-screen')
 const startBtnEl = document.getElementById('start')
 const howBtnEl = document.getElementById('instr-btn')
+
+// elements of the how to play screen on overlay
 const backBtnEl = document.getElementById('back')
 const tldrScreenEl = document.getElementById('how-to-play')
 const linkToInstrEl = document.getElementById('link-instr')
+
+// elements of the detailed instructions/rules screen on overlay
 const backToStartBtnEl = document.getElementById('back-to-start')
 const instrScreenEl = document.getElementById('instructions')
 
-
 /*-------------------------------- Functions --------------------------------*/
+
+init()
 
 // function to initialise the game 
 function init() {
@@ -118,7 +127,6 @@ function init() {
     selectPlayersEl.selectedIndex = 0
     playerDepots = []
     numOfPlayers = 0
-    //numOfPieces = 4
     diceValue = 0
     turn = 'green'
     playArea = pathWay[turn]
@@ -153,8 +161,6 @@ function init() {
     twoSixesSound.volume = 0.4 
     render()
 }
-
-init()
 
 //function to render the board
 function render() {
@@ -252,8 +258,11 @@ function updateBoard() {
             }
         }
 
+        /*
+        caching the child elements (image pieces) on the respective parent element (pathway square),
+        for applying the class 'multi' so that more than one image (piece) can accomodate that square
+        */
         const imageElements = pathEls[idx].querySelectorAll('.piece') 
-
         if (imageElements.length > 1) {
             imageElements.forEach( imageElement => {
                imageElement.classList.add('multi')
@@ -361,16 +370,18 @@ function handleDice() {
     outOfBounds = false // to reset outOfBounds from previous turn
     render() 
     /* 
-    if player has rolled 6 for the third time in a row, 
-    or if the player doesn't have any active pieces and dice value is not 6, 
-    switch player turn &
-    make sure the next player is not able to move piece without rolling a dice
+    if player has rolled 6 for the third time in a row OR
+    if the player doesn't have any active pieces AND dice value is not 6, 
+    then, switch player turn and make sure the next player is not able to move piece without rolling a dice
     */
     if ((count6 === 3) || (activePieces[turn] === 0 && diceValue !== 6)) {
         switchPlayerTurn()
         setTimeout(() => render(), 2000)
     } 
-    
+    /*
+    decision making for the computer in the solo player mode to decide 
+    whether to move an active piece or select a piece from depot if the die roll is 6 
+    */
     if ((activePieces[turn] + piecesWon[turn]) < 4 && diceValue === 6) {
         setTimeout(() => selectAiPiece(), 3000)
     } else if (numOfPlayers === 1 && turn !== 'green' && (activePieces[turn] !== 0)) {
@@ -383,7 +394,6 @@ function handleDiceRoll() {
     diceEl.classList.add('animate__animated','animate__shakeX')
     diceSound.play()
     diceValue = Math.floor(Math.random() * 6) + 1
-    diceFaceWipe = `d${diceValue}`
     if (diceValue === 6) {
         count6 += 1
     }
@@ -621,27 +631,39 @@ function returnBack() {
 }
 
 /*----------------------------- Event Listeners -----------------------------*/
-
+// event listener for the player selection (game mode selection) button
 selectPlayersEl.addEventListener('click', playerSelection)
 
+// when player clicks on the dice
 diceEl.addEventListener('click', handleDice)
+
+// when player clicks on an image-piece inside the player depots
 greenDepotEl.addEventListener('click', handleDepot)
 yellowDepotEl.addEventListener('click', handleDepot)
 blueDepotEl.addEventListener('click', handleDepot)
 redDepotEl.addEventListener('click', handleDepot)
 
+// to check if the player has clicked on an "active piece" on the pathway
 pathEls.forEach(pathEl => {
     if (parseInt(pathEl.id) < 72) {
         pathEl.addEventListener('click', handleClick)
     }
 })
 
+// when player clicks on the "Start Over" button
 resetBtnEl.addEventListener('click', init)
-startBtnEl.addEventListener('click', startGame)
-howBtnEl.addEventListener('click', howToPlay)
-backBtnEl.addEventListener('click', returnBack)
 
+// when player clicks on the "Start" button
+startBtnEl.addEventListener('click', startGame)
+
+// button for opening the "how to play" instructions
+howBtnEl.addEventListener('click', howToPlay)
+
+// for detailed instructions/rules
 linkToInstrEl.addEventListener('click', detailedInstr)
+
+// back buttons taking the player back to title screen
+backBtnEl.addEventListener('click', returnBack)
 backToStartBtnEl.addEventListener('click', returnBack)
 
 
