@@ -59,6 +59,7 @@ header {
 
 .player-name {
   margin: 0;
+  background-color: rgba(14, 32, 1, 0.5);
 }
 
 .dice-container {

@@ -48,6 +48,13 @@ const diceSound = new Audio('../assets/sounds/dice.wav')
 const clickSound = new Audio('../assets/sounds/click.wav')
 const piecePopSound = new Audio('../assets/sounds/pop.wav')
 const buttonSound = new Audio('../assets/sounds/button.wav')
+const twoSixesSound = new Audio('../assets/sounds/booyah.mp3')
+const rolledSixSound = new Audio('../assets/sounds/cowabunga.mp3')
+const threeSixesSound = new Audio('../assests/sounds/ouch.mp3')
+const knockOffSound = new Audio('../assets/sounds/hurt.mp3')
+const oobSound = new Audio('../assets/sounds/oob.mp3')
+const pieceHomeSound = new Audio('../assets/sounds/turtle-power.mp3')
+const winSound = new Audio('../assets/sounds/whose-the-turtle.mp3')
 
 
 /*---------------------------- Variables (state) ----------------------------*/
@@ -136,7 +143,9 @@ function init() {
     knockOffBonus = false
     titleScreenEl.style.display = '' 
     instrScreenEl.style.display = 'none'
-    startBtnEl.setAttribute('disabled', true)   
+    startBtnEl.setAttribute('disabled', true)  
+    rolledSixSound.volume = 0.5
+    twoSixesSound.volume = 0.5 
     render()
 }
 
@@ -153,10 +162,10 @@ function render() {
 //setting number of players
 function playerSelection() {
     buttonSound.play()
-    if (numOfPlayers !== 0) {
+    numOfPlayers = parseInt(selectPlayersEl.value)
+    if (numOfPlayers === 0) {
         return
     }
-    numOfPlayers = parseInt(selectPlayersEl.value)
     startBtnEl.removeAttribute('disabled')   
 }
 
@@ -258,8 +267,10 @@ function updateMessage() {
         messageEl.textContent = 'Game On!!'
     } else if (winner) {
         messageEl.textContent = `BOOYAKASHA!! ${playerNames[turn]} is the LUDO MASTER!! Congratulations!!`
+        winSound.play()
     } else if (pieceHome) {
         messageEl.textContent = `BOOYAKASHA!! ${playerNames[turn]}'s Piece reached HOME!! Get ${4 - piecesWon[turn]} more Piece(s) Home to Win`
+        pieceHomeSound.play()
     } else if (!winner && !pieceHome && activePieces[turn] === 0) {
         if (outOfBounds) {
             messageEl.textContent = `Out Of Bounds!! You lose the turn! ${playerNames[turn]}'s turn. Roll the Dice!`
@@ -284,6 +295,7 @@ function firstMove() {
         messageEl.textContent = `${playerNames[turn]} didn't get a SIX. Better Luck in the next roll of Dice`
    } else {
         messageEl.textContent = `COWABUNGA!! ${playerNames[turn]} got a SIX! Select a Piece from Depot to make a move!`
+        rolledSixSound.play()
    }
 }
 
@@ -291,14 +303,18 @@ function firstMove() {
 function makeYourMove() {
     if (outOfBounds) {
         messageEl.textContent = `Out Of Bounds!! This is not going to be a walk in the park! Select a different Piece!`
+        oobSound.play()
     } else if (diceValue !== 6) {
         messageEl.textContent = `${playerNames[turn]} got a ${diceValue}! Select an Active Piece to make a move!`
     } else if (count6 === 1) {
         messageEl.textContent = `COWABUNGA!! ${playerNames[turn]} got a SIX! Select any Piece to make a move!!`
+        rolledSixSound.play()
     } else if(count6 === 2) { 
         messageEl.textContent = `BOOYAH!! ${playerNames[turn]} got a SIX Again! Select any Piece to make a move!!`
+        twoSixesSound.play()
     } else if (count6 === 3) {
         messageEl.textContent = `OOPS!! Rule of 3 SIXES: You lose the turn!!` 
+        threeSixesSound.play()
     } 
 }
 
@@ -308,6 +324,7 @@ function rollTheDice() {
         messageEl.textContent = `Out Of Bounds!! You lose the turn! ${playerNames[turn]}'s turn. Roll the Dice!`
     }  else if (knockOffBonus) {
         messageEl.textContent = `KNOCK OFF bonus!! ${playerNames[turn]}'s turn. Roll the Dice!`
+        knockOffSound.play()
     } else if (count6 === 1) {
         messageEl.textContent = `${playerNames[turn]}'s turn. Rule of SIX: Bonus turn!! Roll the Dice!`
     } else if (count6 === 2) {
