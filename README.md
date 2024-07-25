@@ -57,3 +57,5 @@ https://www.pngwing.com/en/free-png-kalkg)
 - Michaelangelo sounds: [101soundboards](
 https://www.101soundboards.com/boards/11011-michaelangelo-sounds-teenage-mutant-ninja-turtles)
 
+- Animations: [Animate.css](https://animate.style/)
+
