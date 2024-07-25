@@ -45,6 +45,8 @@ const pathWay = {
 }
 
 const diceSound = new Audio('../assets/sounds/dice.wav')
+const clickSound = new Audio('../assets/sounds/click.wav')
+const buttonSound = new Audio('../assets/sounds/button.wav')
 
 
 /*---------------------------- Variables (state) ----------------------------*/
@@ -132,7 +134,8 @@ function init() {
     diceDisabled = true
     knockOffBonus = false
     titleScreenEl.style.display = '' 
-    instrScreenEl.style.display = 'none'   
+    instrScreenEl.style.display = 'none'
+    startBtnEl.setAttribute('disabled', true)   
     render()
 }
 
@@ -148,11 +151,12 @@ function render() {
 
 //setting number of players
 function playerSelection() {
+    buttonSound.play()
     if (numOfPlayers !== 0) {
         return
     }
     numOfPlayers = parseInt(selectPlayersEl.value)
-    
+    startBtnEl.removeAttribute('disabled')   
 }
 
 // to update the depots based on number of players
@@ -552,6 +556,7 @@ function startGame() {
     if (numOfPlayers === 0) {
         return
     }
+    buttonSound.play()
     titleScreenEl.style.display = 'none'
     setTimeout(() => {
         diceDisabled = false
@@ -561,12 +566,14 @@ function startGame() {
 
 // to show the how to play instructions screen 
 function howToPlay() {
+    buttonSound.play()
     instrScreenEl.style.display = ''
     titleScreenEl.style.display = 'none'
 }
 
 // to return back to same screen where the how to play button was clicked from
 function returnBack() {
+    buttonSound.play()
     instrScreenEl.style.display = 'none'
     titleScreenEl.style.display = ''
 }
