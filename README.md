@@ -1,6 +1,7 @@
 # Ludo Master
 ![game title screen](./assets/images/title-screen-ss.png)
 ![game board screen](./assets/images/game-screen-ss.png)
+
 Ludo Master is based on Ludo, a classic board game enjoyed by many during their childhood, including myself. This game is designed for 2 to 4 players and is inspired by the traditional Indian game Pachisi. Ludo Master also has a Solo Player mode where you can play with computer as the 2nd player. 
 
 ## Game Overview
