@@ -308,7 +308,6 @@ function rollTheDice() {
 
 // to display the value of rolled dice
 function showDiceValue() {
-    console.log(diceRollValueEl)
     if (diceValue) {
         diceRollValueEl.classList.add(`d${diceValue}`)
     }
@@ -349,7 +348,6 @@ function handleDice() {
 
 // to handle dice roll and randomly assign diceValue
 function handleDiceRoll() {
-    console.log(diceEl)
     diceEl.classList.add('animate__animated','animate__shakeX')
     diceSound.play()
     diceValue = Math.floor(Math.random() * 6) + 1
@@ -398,7 +396,6 @@ function handleDepot(event) {
     selectedPiece = true
     activePieces[turn] += 1
     diceDisabled = false
-    console.log(board[startPos])
     render()
     if (diceValue === 6 && count6 !== 3) {
         setTimeout(() => checkAi(), 3000)
