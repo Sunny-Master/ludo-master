@@ -7,7 +7,7 @@ body {
   margin: 0;
   background: url(../assets/images/background.png);
   background-size: cover;
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
@@ -22,6 +22,10 @@ header {
   background-color: rgba(14, 32, 1, 0.7);
   width: 100%;
   margin-bottom: 2%;
+}
+
+#title-on-board {
+  max-height: 200px;
 }
 
 #game-area {
@@ -260,7 +264,7 @@ h1 {
   height: 35px;
   border-radius: 8px;
   border: none;
-  background-color: rgba(188, 230, 75, 0.911);
+  background-color: #66FF66;
   cursor: pointer; /* Add a pointer on hover */
 }
 
@@ -283,7 +287,7 @@ h1 {
   background: rgba(0, 0, 0, 0.7); /* Black background with opacity */
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   backdrop-filter: blur(10px); /* Blurs the background*/
 }
@@ -296,9 +300,23 @@ h1 {
   height: 50%;
   gap: 40px;
 }
-#title-on-overlay {
-  color: white;
-  font-size: 50px;
+
+.title {
+  max-width: 500px;
+}
+
+#icons {
+  max-width: 600px;
+  max-height: 25%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 25px;
+  align-items: flex-start;
+}
+
+.icon {
+  width: 100px;
 }
 
 select {
@@ -309,7 +327,7 @@ select {
   display: block;
   height: 35px;
   border-radius: 10px;
-  background-color: rgba(188, 230, 75, 0.911);
+  background-color: #66FF66;
 }
 
 #instructions {
