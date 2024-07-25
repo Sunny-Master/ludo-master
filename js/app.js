@@ -44,6 +44,8 @@ const pathWay = {
          23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 62, 63, 64, 65, 66, 75],
 }
 
+const diceSound = new Audio('../assets/sounds/dice.wav')
+
 
 /*---------------------------- Variables (state) ----------------------------*/
 let numOfPlayers, numOfPieces, turn, selectedPiece, winner, outOfBounds, pieceHome, playArea
@@ -98,6 +100,7 @@ const instrScreenEl = document.getElementById('instructions')
 function init() {
     board = []
     diceRollValueEl.className = 'dice'
+    diceEl.className = 'dice'
     selectPlayersEl.selectedIndex = 0
     playerDepots = []
     numOfPlayers = 0
@@ -305,6 +308,7 @@ function rollTheDice() {
 
 // to display the value of rolled dice
 function showDiceValue() {
+    console.log(diceRollValueEl)
     if (diceValue) {
         diceRollValueEl.classList.add(`d${diceValue}`)
     }
@@ -316,9 +320,10 @@ function handleDice() {
         return
     }
     if (diceValue) {
-        diceRollValueEl.classList.remove(diceFaceWipe)
+        diceRollValueEl.className = 'dice'
     }
     selectedPiece = false
+    
     handleDiceRoll()
     diceDisabled = true
     knockOffBonus = false // to reset knockOffBonus from previous turn
@@ -344,11 +349,15 @@ function handleDice() {
 
 // to handle dice roll and randomly assign diceValue
 function handleDiceRoll() {
+    console.log(diceEl)
+    diceEl.classList.add('animate__animated','animate__shakeX')
+    diceSound.play()
     diceValue = Math.floor(Math.random() * 6) + 1
     diceFaceWipe = `d${diceValue}`
     if (diceValue === 6) {
         count6 += 1
     }
+    setTimeout(() => diceEl.className = 'dice', 500)
 }
 
 // to select an AI piece from the depot
@@ -498,7 +507,6 @@ function knockOff(index, player) {
 // to move the piece from current position to new position on the board
 function movePiece(newSquareIndex) {
     board[newSquareIndex] += turn
-    // diceRollValueEl.classList.remove(diceFaceWipe)
 }
 
 // check if there is a winner
