@@ -201,6 +201,7 @@ function updateBoard() {
                 pieceElement.classList.add('piece')
                 pieceElement.src = pieceObject['green']
                 pieceElement.alt = 'Donatello Face'
+                pieceElement.classList.add('animate__animated','animate__pulse')
                 pathEls[idx].appendChild(pieceElement)
                 
             }
@@ -210,6 +211,8 @@ function updateBoard() {
                 const pieceElement = document.createElement('img')
                 pieceElement.classList.add('piece')
                 pieceElement.src = pieceObject['yellow']
+                pieceElement.alt = 'Michaelangelo Face'
+                pieceElement.classList.add('animate__animated','animate__pulse')
                 pathEls[idx].appendChild(pieceElement)
 
             }
@@ -219,6 +222,8 @@ function updateBoard() {
                 const pieceElement = document.createElement('img')
                 pieceElement.classList.add('piece')
                 pieceElement.src = pieceObject['blue']
+                pieceElement.alt = 'Leonardo Face'
+                pieceElement.classList.add('animate__animated','animate__pulse')
                 pathEls[idx].appendChild(pieceElement)
             }
         }
@@ -227,6 +232,8 @@ function updateBoard() {
                 const pieceElement = document.createElement('img')
                 pieceElement.classList.add('piece')
                 pieceElement.src = pieceObject['red']
+                pieceElement.alt = 'Raphael Face'
+                pieceElement.classList.add('animate__animated','animate__pulse')
                 pathEls[idx].appendChild(pieceElement)
             }
         }
