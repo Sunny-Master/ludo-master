@@ -27,6 +27,7 @@ As a fan of Ludo and TMNT(Teenage Mutant Ninja Turtles) since childhood, I creat
 11. Land in a square with a single piece of another player to send the landed piece back to depot (and get a bonus turn)
 12. Pieces travel around the board and enter their home pathway and reach home
 13. First player to move all 4 pieces home, becomes the Ludo Master
+14. Easter Egg: A play/pause button that plays (and then pauses as well) the theme music from TMNT cartoon (1987) (00:58). Find it and enjoy the music!!
 
 
 ## Getting Started
@@ -78,4 +79,6 @@ https://www.pngwing.com/en/free-png-kalkg)
 https://www.101soundboards.com/boards/11011-michaelangelo-sounds-teenage-mutant-ninja-turtles)
 
 - Animations: [Animate.css](https://animate.style/)
+
+- TMNT Theme Song (1987): [Internet Archive](https://archive.org/details/tvtunes_1022)
 

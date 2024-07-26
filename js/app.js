@@ -63,6 +63,9 @@ const oobSound = new Audio('../assets/sounds/oob.mp3')
 const pieceHomeSound = new Audio('../assets/sounds/turtle-power.mp3')
 const winSound = new Audio('../assets/sounds/whose-the-turtle.mp3')
 
+// TMNT theme song from 1987 cartoon
+const titleSound = new Audio('../assets/sounds/tmnt-theme-1987.mp3')
+
 
 /*---------------------------- Variables (state) ----------------------------*/
 let numOfPlayers, turn, selectedPiece, winner, outOfBounds, pieceHome, playArea
@@ -174,9 +177,6 @@ function render() {
 function playerSelection() {
     buttonSound.play()
     numOfPlayers = parseInt(selectPlayersEl.value)
-    if (numOfPlayers === 0) {
-        return
-    }
     startBtnEl.removeAttribute('disabled')   
 }
 
@@ -630,9 +630,17 @@ function returnBack() {
     titleScreenEl.style.display = ''
 }
 
+// to play/pause the theme music
+
+function themeMusic(event) {
+    if (event.target.id === 'leonardo') {
+        titleSound.paused ? titleSound.play() : titleSound.pause()
+    }
+}
+
 /*----------------------------- Event Listeners -----------------------------*/
 // event listener for the player selection (game mode selection) button
-selectPlayersEl.addEventListener('click', playerSelection)
+selectPlayersEl.addEventListener('change', playerSelection)
 
 // when player clicks on the dice
 diceEl.addEventListener('click', handleDice)
@@ -666,6 +674,10 @@ linkToInstrEl.addEventListener('click', detailedInstr)
 backBtnEl.addEventListener('click', returnBack)
 backToStartBtnEl.addEventListener('click', returnBack)
 
+// to play the TMNT theme music 
+document.querySelectorAll('.icon').forEach(icon => {
+    icon.addEventListener('click', themeMusic)
+})
 
 
 
